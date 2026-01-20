@@ -14,7 +14,6 @@ import {
     CreditCard,
     Briefcase
 } from 'lucide-react';
-import './Home.css';
 
 const Home = () => {
     const [billingPeriod, setBillingPeriod] = useState('monthly');
@@ -24,20 +23,20 @@ const Home = () => {
     };
 
     return (
-        <div className="home-page">
+        <div className="home-page overflow-x-hidden">
             {/* 2. Hero Section */}
-            <section className="hero">
-                <div className="container hero-content">
-                    <div className="hero-text">
-                        <h1>Smart Finance & Billing for Growing Businesses</h1>
-                        <p>Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
-                        <div className="hero-buttons">
-                            <button className="btn-primary">Get Started Free</button>
-                            <button className="btn-outline">Request Demo</button>
+            <section className="pt-[120px] pb-20 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
+                <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+                    <div className="flex-1 text-left">
+                        <h1 className="text-[3.5rem] font-bold mb-6 text-primary leading-[1.1]">Smart Finance & Billing for Growing Businesses</h1>
+                        <p className="text-xl text-text-light mb-10 leading-relaxed">Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
+                        <div className="flex gap-4">
+                            <button className="px-6 py-3 bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl">Get Started Free</button>
+                            <button className="px-6 py-3 border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</button>
                         </div>
                     </div>
-                    <div className="hero-visual">
-                        <div className="hero-image-placeholder">
+                    <div className="flex-1 relative w-full">
+                        <div className="w-full h-[400px] bg-gradient-to-br from-[#0B2545]/5 to-[#0081A7]/10 rounded-2xl shadow-xl flex items-center justify-center text-primary font-semibold text-xl">
                             Dashboard Mockup & Charts
                         </div>
                     </div>
@@ -45,27 +44,27 @@ const Home = () => {
             </section>
 
             {/* 3. Trust Indicators */}
-            <section className="trust-section">
-                <div className="container">
-                    <p className="trust-title">Trusted by 5,000+ SMEs</p>
-                    <div className="trust-logos">
-                        <div className="trust-logo"><ShieldCheck size={20} /> Razorpay</div>
-                        <div className="trust-logo"><CheckCircle2 size={20} /> GST Ready</div>
-                        <div className="trust-logo"><CreditCard size={20} /> Secure Payments</div>
-                        <div className="trust-logo"><ShieldCheck size={20} /> SSL Secured</div>
-                        <div className="trust-logo"><CheckCircle2 size={20} /> ISO Certified</div>
+            <section className="py-10 bg-white border-b border-gray-100">
+                <div className="container mx-auto px-6">
+                    <p className="text-center text-text-light text-sm uppercase tracking-widest mb-8">Trusted by 5,000+ SMEs</p>
+                    <div className="flex flex-wrap justify-around items-center gap-8 opacity-70">
+                        <div className="text-lg font-bold text-text-light flex items-center gap-2"><ShieldCheck size={20} /> Razorpay</div>
+                        <div className="text-lg font-bold text-text-light flex items-center gap-2"><CheckCircle2 size={20} /> GST Ready</div>
+                        <div className="text-lg font-bold text-text-light flex items-center gap-2"><CreditCard size={20} /> Secure Payments</div>
+                        <div className="text-lg font-bold text-text-light flex items-center gap-2"><ShieldCheck size={20} /> SSL Secured</div>
+                        <div className="text-lg font-bold text-text-light flex items-center gap-2"><CheckCircle2 size={20} /> ISO Certified</div>
                     </div>
                 </div>
             </section>
 
             {/* 4. Core Features Section */}
-            <section className="features-section" id="solutions">
-                <div className="container">
-                    <div className="section-header">
-                        <h2>Everything you need to run your business</h2>
-                        <p>Powerful tools to help you manage your finances, invoices, and team effortlessly.</p>
+            <section className="py-[100px] bg-bg-light" id="solutions">
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <h2 className="text-[2.5rem] font-bold mb-4">Everything you need to run your business</h2>
+                        <p className="text-lg text-text-light max-w-[600px] mx-auto">Powerful tools to help you manage your finances, invoices, and team effortlessly.</p>
                     </div>
-                    <div className="grid-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <FeatureCard
                             icon={<FileText />}
                             title="Smart Invoicing"
@@ -101,33 +100,33 @@ const Home = () => {
             </section>
 
             {/* 5. AI-Powered Insights Section */}
-            <section className="ai-section">
-                <div className="container ai-container">
-                    <div className="ai-content">
-                        <div className="section-header" style={{ textAlign: 'left', marginBottom: '2rem' }}>
-                            <h2>AI that looks out for your business</h2>
-                            <p>Don't just track numbers. Understand them with our advanced AI engine that predicts trends and alerts you risks.</p>
+            <section className="py-[100px] bg-white">
+                <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+                    <div className="flex-1 text-left">
+                        <div className="mb-8 text-left">
+                            <h2 className="text-[2.5rem] font-bold mb-4">AI that looks out for your business</h2>
+                            <p className="text-lg text-text-light">Don't just track numbers. Understand them with our advanced AI engine that predicts trends and alerts you risks.</p>
                         </div>
-                        <ul className="features-list">
-                            <li><CheckCircle2 size={18} color="var(--accent-color)" /> Cash flow forecasting</li>
-                            <li><CheckCircle2 size={18} color="var(--accent-color)" /> Smart spending alerts</li>
-                            <li><CheckCircle2 size={18} color="var(--accent-color)" /> Client payment behavior analysis</li>
+                        <ul className="list-none text-left my-8">
+                            <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Cash flow forecasting</li>
+                            <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Smart spending alerts</li>
+                            <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Client payment behavior analysis</li>
                         </ul>
-                        <button className="btn-accent">See AI in Action</button>
+                        <button className="px-6 py-3 bg-accent text-white rounded-lg hover:bg-violet-600 transition-all font-medium shadow-md hover:shadow-lg">See AI in Action</button>
                     </div>
-                    <div className="ai-visual">
-                        <div className="insight-alert insight-warning">
+                    <div className="flex-1 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-white relative shadow-2xl w-full">
+                        <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl mb-4 flex items-center gap-4 border-l-4 border-yellow-400">
                             <AlertTriangle color="#fbbf24" />
                             <div>
                                 <strong>Cash Flow Alert</strong>
-                                <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Cash balance may drop in 12 days based on current spending.</div>
+                                <div className="text-sm opacity-80">Cash balance may drop in 12 days based on current spending.</div>
                             </div>
                         </div>
-                        <div className="insight-alert">
-                            <TrendingUp color="var(--accent-color)" />
+                        <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl mb-4 flex items-center gap-4 border-l-4 border-accent">
+                            <TrendingUp color="var(--color-accent)" />
                             <div>
                                 <strong>Payment Insight</strong>
-                                <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Your top client "Acme Corp" pays fastest after Tuesday reminders.</div>
+                                <div className="text-sm opacity-80">Your top client "Acme Corp" pays fastest after Tuesday reminders.</div>
                             </div>
                         </div>
                     </div>
@@ -135,43 +134,43 @@ const Home = () => {
             </section>
 
             {/* 6. How It Works */}
-            <section className="how-it-works-section">
-                <div className="container">
-                    <div className="section-header">
-                        <h2>Get started in minutes</h2>
+            <section className="py-[100px] bg-white">
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-12">
+                        <h2 className="text-[2.5rem] font-bold">Get started in minutes</h2>
                     </div>
-                    <div className="steps-container">
-                        <div className="step-item">
-                            <div className="step-icon">1</div>
-                            <h3>Sign Up</h3>
-                            <p>Create your free account.</p>
+                    <div className="flex flex-col md:flex-row justify-between relative mt-12 md:before:absolute md:before:top-10 md:before:left-12 md:before:right-12 md:before:h-0.5 md:before:bg-gray-200 md:before:z-0">
+                        <div className="relative z-10 text-center flex-1 mb-8 md:mb-0 group cursor-default">
+                            <div className="w-[80px] h-[80px] bg-white border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 text-secondary font-bold text-2xl transition-all duration-300 group-hover:bg-secondary group-hover:text-white">1</div>
+                            <h3 className="text-xl font-bold mb-2">Sign Up</h3>
+                            <p className="text-text-light">Create your free account.</p>
                         </div>
-                        <div className="step-item">
-                            <div className="step-icon">2</div>
-                            <h3>Add Details</h3>
-                            <p>Add company & employees.</p>
+                        <div className="relative z-10 text-center flex-1 mb-8 md:mb-0 group cursor-default">
+                            <div className="w-[80px] h-[80px] bg-white border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 text-secondary font-bold text-2xl transition-all duration-300 group-hover:bg-secondary group-hover:text-white">2</div>
+                            <h3 className="text-xl font-bold mb-2">Add Details</h3>
+                            <p className="text-text-light">Add company & employees.</p>
                         </div>
-                        <div className="step-item">
-                            <div className="step-icon">3</div>
-                            <h3>Create</h3>
-                            <p>Generate invoices & payroll.</p>
+                        <div className="relative z-10 text-center flex-1 mb-8 md:mb-0 group cursor-default">
+                            <div className="w-[80px] h-[80px] bg-white border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 text-secondary font-bold text-2xl transition-all duration-300 group-hover:bg-secondary group-hover:text-white">3</div>
+                            <h3 className="text-xl font-bold mb-2">Create</h3>
+                            <p className="text-text-light">Generate invoices & payroll.</p>
                         </div>
-                        <div className="step-item">
-                            <div className="step-icon">4</div>
-                            <h3>Insights</h3>
-                            <p>Get AI reports instantly.</p>
+                        <div className="relative z-10 text-center flex-1 group cursor-default">
+                            <div className="w-[80px] h-[80px] bg-white border-2 border-secondary rounded-full flex items-center justify-center mx-auto mb-6 text-secondary font-bold text-2xl transition-all duration-300 group-hover:bg-secondary group-hover:text-white">4</div>
+                            <h3 className="text-xl font-bold mb-2">Insights</h3>
+                            <p className="text-text-light">Get AI reports instantly.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* 7. Target Users Section */}
-            <section className="target-users-section">
-                <div className="container">
-                    <div className="section-header">
-                        <h2>Who is FinSight for?</h2>
+            <section className="py-[100px] bg-bg-light">
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <h2 className="text-[2.5rem] font-bold">Who is FinSight for?</h2>
                     </div>
-                    <div className="grid-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <UserCard
                             icon={<Briefcase />}
                             title="SME Owners"
@@ -192,21 +191,21 @@ const Home = () => {
             </section>
 
             {/* 8. Pricing Section */}
-            <section className="pricing-section">
-                <div className="container">
-                    <div className="section-header">
-                        <h2>Simple, transparent pricing</h2>
+            <section className="py-[100px] bg-white">
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <h2 className="text-[2.5rem] font-bold">Simple, transparent pricing</h2>
                     </div>
 
-                    <div className="pricing-toggle">
-                        <span style={{ fontWeight: billingPeriod === 'monthly' ? '700' : '400' }}>Monthly</span>
-                        <div className={`toggle-switch ${billingPeriod === 'yearly' ? 'active' : ''}`} onClick={toggleBilling}>
-                            <div className="toggle-slider"></div>
+                    <div className="flex justify-center items-center gap-4 mb-12">
+                        <span className={billingPeriod === 'monthly' ? 'font-bold' : 'font-normal'}>Monthly</span>
+                        <div className={`relative w-[60px] h-[30px] bg-gray-200 rounded-full cursor-pointer transition-colors duration-300 ${billingPeriod === 'yearly' ? 'bg-secondary' : ''}`} onClick={toggleBilling}>
+                            <div className={`absolute top-[2px] left-[2px] w-[26px] h-[26px] bg-white rounded-full transition-transform duration-300 ${billingPeriod === 'yearly' ? 'translate-x-[30px]' : ''}`}></div>
                         </div>
-                        <span style={{ fontWeight: billingPeriod === 'yearly' ? '700' : '400' }}>Yearly <span style={{ fontSize: '0.8rem', color: 'var(--accent-color)' }}>(Save 20%)</span></span>
+                        <span className={billingPeriod === 'yearly' ? 'font-bold' : 'font-normal'}>Yearly <span className="text-sm text-accent">(Save 20%)</span></span>
                     </div>
 
-                    <div className="grid-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <PricingCard
                             title="Basic"
                             price={billingPeriod === 'monthly' ? '$0' : '$0'}
@@ -230,43 +229,43 @@ const Home = () => {
             </section>
 
             {/* 9. Footer */}
-            <footer className="footer">
-                <div className="container">
-                    <div className="footer-grid">
+            <footer className="bg-primary text-white py-20 pb-10">
+                <div className="container mx-auto px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-16 mb-16 text-left">
                         <div className="footer-brand">
-                            <h3>FinSight</h3>
-                            <p>Simplifying finance for the modern business. Powered by AI, designed for humans.</p>
+                            <h3 className="text-xl font-bold mb-4">FinSight</h3>
+                            <p className="text-slate-400 mt-4 max-w-[300px]">Simplifying finance for the modern business. Powered by AI, designed for humans.</p>
                         </div>
                         <div className="footer-links">
-                            <h4>Product</h4>
-                            <ul>
-                                <li><a href="#">Features</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Security</a></li>
+                            <h4 className="text-white mb-6 font-bold">Product</h4>
+                            <ul className="list-none">
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">Features</a></li>
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">Pricing</a></li>
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">Security</a></li>
                             </ul>
                         </div>
                         <div className="footer-links">
-                            <h4>Company</h4>
-                            <ul>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Blog</a></li>
+                            <h4 className="text-white mb-6 font-bold">Company</h4>
+                            <ul className="list-none">
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">About Us</a></li>
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">Careers</a></li>
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">Blog</a></li>
                             </ul>
                         </div>
                         <div className="footer-links">
-                            <h4>Support</h4>
-                            <ul>
-                                <li><a href="#">Help Center</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">Status</a></li>
+                            <h4 className="text-white mb-6 font-bold">Support</h4>
+                            <ul className="list-none">
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">Help Center</a></li>
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">Contact</a></li>
+                                <li className="mb-3"><a href="#" className="text-slate-400 hover:text-white transition-colors">Status</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div className="footer-bottom">
+                    <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-400 text-sm">
                         <div>© 2026 FinSight Inc. All rights reserved.</div>
-                        <div style={{ display: 'flex', gap: '1rem' }}>
-                            <a href="#">Privacy</a>
-                            <a href="#">Terms</a>
+                        <div className="flex gap-4 mt-4 md:mt-0">
+                            <a href="#" className="hover:text-white">Privacy</a>
+                            <a href="#" className="hover:text-white">Terms</a>
                         </div>
                     </div>
                 </div>
@@ -277,32 +276,36 @@ const Home = () => {
 
 // Helper Components
 const FeatureCard = ({ icon, title, desc }) => (
-    <div className="feature-card">
-        <div className="feature-icon">{icon}</div>
-        <h3>{title}</h3>
-        <p>{desc}</p>
+    <div className="bg-white p-8 rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300 text-left">
+        <div className="w-[50px] h-[50px] bg-secondary/10 rounded-xl flex items-center justify-center mb-6 text-secondary">
+            {React.cloneElement(icon, { size: 24 })}
+        </div>
+        <h3 className="text-xl font-bold mb-3">{title}</h3>
+        <p className="text-text-light text-[0.95rem] leading-relaxed">{desc}</p>
     </div>
 );
 
 const UserCard = ({ icon, title, desc }) => (
-    <div className="user-card">
-        <div className="feature-icon" style={{ margin: '0 auto 1.5rem' }}>{icon}</div>
-        <h3>{title}</h3>
-        <p>{desc}</p>
+    <div className="bg-white p-8 rounded-2xl text-center border border-transparent hover:border-secondary hover:-translate-y-1 transition-all duration-300">
+        <div className="w-[50px] h-[50px] bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-6 text-secondary">
+            {React.cloneElement(icon, { size: 24 })}
+        </div>
+        <h3 className="text-xl font-bold mb-3">{title}</h3>
+        <p className="text-text-light">{desc}</p>
     </div>
 );
 
 const PricingCard = ({ title, price, features, highlighted = false, period = '' }) => (
-    <div className={`pricing-card ${highlighted ? 'highlighted' : ''}`}>
-        {highlighted && <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', padding: '5px', background: 'var(--secondary-color)', color: 'white', borderRadius: '15px 15px 0 0', fontSize: '0.8rem', fontWeight: 'bold' }}>MOST POPULAR</div>}
-        <h3 style={{ marginTop: highlighted ? '1rem' : '0' }}>{title}</h3>
-        <div className="price">{price}<span style={{ fontSize: '1rem', color: 'var(--text-light)', fontWeight: 'normal' }}>{period}</span></div>
-        <ul className="features-list">
+    <div className={`border rounded-2xl p-10 text-center relative ${highlighted ? 'border-secondary bg-secondary/5 scale-105 shadow-xl z-10' : 'border-gray-200'}`}>
+        {highlighted && <div className="absolute top-0 left-0 w-full p-[5px] bg-secondary text-white rounded-t-2xl text-[0.8rem] font-bold">MOST POPULAR</div>}
+        <h3 className={`text-xl font-bold ${highlighted ? 'mt-4' : ''}`}>{title}</h3>
+        <div className="text-[2.5rem] font-bold my-6 text-primary">{price}<span className="text-base text-text-light font-normal">{period}</span></div>
+        <ul className="list-none text-left my-8">
             {features.map((feat, i) => (
-                <li key={i}><CheckCircle2 size={16} color="var(--secondary-color)" /> {feat}</li>
+                <li key={i} className="mb-3 flex items-center gap-2"><CheckCircle2 size={16} color="var(--color-secondary)" /> {feat}</li>
             ))}
         </ul>
-        <button className={highlighted ? 'btn-primary' : 'btn-outline'} style={{ width: '100%' }}>Choose {title}</button>
+        <button className={`w-full py-3 rounded-lg font-medium transition-all ${highlighted ? 'bg-secondary text-white hover:opacity-90 shadow-lg' : 'border border-secondary text-secondary hover:bg-secondary hover:text-white'}`}>Choose {title}</button>
     </div>
 );
 
