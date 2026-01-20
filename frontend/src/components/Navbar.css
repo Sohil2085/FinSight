@@ -1,0 +1,58 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    background-color: transparent;
+}
+
+.navbar.scrolled {
+    background-color: var(--white);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem 0;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.navbar-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.navbar-links a {
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: var(--secondary-color);
+}
+
+.navbar-auth {
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar .btn-outline {
+    padding: 0.5em 1em;
+    font-size: 0.9rem;
+}
+
+.navbar .btn-primary {
+    padding: 0.5em 1em;
+    font-size: 0.9rem;
+}
