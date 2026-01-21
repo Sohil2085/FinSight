@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0B2545;
+  /* Deep Navy from 'Fin' */
+  --color-secondary: #0081A7;
+  /* Teal from 'Sight' */
+  --color-accent: #D4AF37;
+  /* Gold from Arrow */
+  --color-text-light: #64748b;
+  --color-bg-light: #f1f5f9;
+  --color-white: #ffffff;
+}
+
+@layer base {
+  body {
+    @apply antialiased text-gray-900 bg-white;
+    margin: 0;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  }
+
+  /* Reset for #root from App.css */
+  #root {
+    @apply w-full max-w-[1280px] mx-auto text-center min-h-screen flex flex-col;
+    /* padding: 2rem; - Removed strictly global padding to allow full-width hero sections */
+  }
+}
