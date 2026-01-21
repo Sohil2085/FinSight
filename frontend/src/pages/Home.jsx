@@ -36,8 +36,10 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="flex-1 relative w-full">
-                        <div className="w-full h-[400px] bg-gradient-to-br from-[#0B2545]/5 to-[#0081A7]/10 rounded-2xl shadow-xl flex items-center justify-center text-primary font-semibold text-xl">
-                            Dashboard Mockup & Charts
+                        <div className="w-full h-[400px] bg-gradient-to-br from-[#0B2545]/5 to-[#0081A7]/10 rounded-2xl flex items-center justify-center text-primary font-semibold text-xl">
+                            <figure>
+                                <img src="/home_page_banner.png" alt="Home Banner" />
+                            </figure>
                         </div>
                     </div>
                 </div>

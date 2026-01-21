@@ -1,0 +1,18 @@
+figure, .figure, .picture{
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    overflow: hidden;
+    width: 100%;
+}
+.picture > img,
+.picture > iframe,
+.picture > video{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
