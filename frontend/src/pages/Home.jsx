@@ -23,7 +23,7 @@ const Home = () => {
     };
 
     return (
-        <div className="home-page overflow-x-hidden">
+        <div className="overflow-x-hidden" >
             {/* 2. Hero Section */}
             <section className="pt-[120px] pb-20 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
                 <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
@@ -229,8 +229,8 @@ const Home = () => {
             </section>
 
             {/* 9. Footer */}
-            <footer className="bg-primary text-white py-20 pb-10">
-                <div className="container mx-auto px-6">
+            <footer className="w-full bg-primary text-white py-20 pb-10">
+                <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-16 mb-16 text-left">
                         <div className="footer-brand">
                             <h3 className="text-xl font-bold mb-4">FinSight</h3>
