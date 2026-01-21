@@ -19,7 +19,7 @@ const Navbar = () => {
 
     return (
         <nav className={`fixed top-0 left-0 w-full py-4 transition-all duration-300 z-[1000] ${isScrolled ? 'bg-white shadow-sm py-3' : 'bg-transparent'}`}>
-            <div className="container mx-auto px-6 flex justify-between items-center">
+            <div className="container mx-auto px-8 md:px-12 flex justify-between items-center">
                 <Link to="/" className="flex items-center">
                     <img src="/logo1.png" alt="FinSight Logo" className="h-16 w-auto" />
                 </Link>

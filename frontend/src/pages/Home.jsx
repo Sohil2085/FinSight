@@ -26,7 +26,7 @@ const Home = () => {
         <div className="overflow-x-hidden" >
             {/* 2. Hero Section */}
             <section className="pt-[120px] pb-20 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
-                <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+                <div className="container mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center gap-16">
                     <div className="flex-1 text-left">
                         <h1 className="text-[3.5rem] font-bold mb-6 text-primary leading-[1.1]">Smart Finance & Billing for Growing Businesses</h1>
                         <p className="text-xl text-text-light mb-10 leading-relaxed">Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
@@ -45,7 +45,7 @@ const Home = () => {
 
             {/* 3. Trust Indicators */}
             <section className="py-10 bg-white border-b border-gray-100">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12">
                     <p className="text-center text-text-light text-sm uppercase tracking-widest mb-8">Trusted by 5,000+ SMEs</p>
                     <div className="flex flex-wrap justify-around items-center gap-8 opacity-70">
                         <div className="text-lg font-bold text-text-light flex items-center gap-2"><ShieldCheck size={20} /> Razorpay</div>
@@ -59,7 +59,7 @@ const Home = () => {
 
             {/* 4. Core Features Section */}
             <section className="py-[100px] bg-bg-light" id="solutions">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-[2.5rem] font-bold mb-4">Everything you need to run your business</h2>
                         <p className="text-lg text-text-light max-w-[600px] mx-auto">Powerful tools to help you manage your finances, invoices, and team effortlessly.</p>
@@ -101,7 +101,7 @@ const Home = () => {
 
             {/* 5. AI-Powered Insights Section */}
             <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+                <div className="container mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center gap-16">
                     <div className="flex-1 text-left">
                         <div className="mb-8 text-left">
                             <h2 className="text-[2.5rem] font-bold mb-4">AI that looks out for your business</h2>
@@ -135,7 +135,7 @@ const Home = () => {
 
             {/* 6. How It Works */}
             <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12">
                     <div className="text-center mb-12">
                         <h2 className="text-[2.5rem] font-bold">Get started in minutes</h2>
                     </div>
@@ -166,7 +166,7 @@ const Home = () => {
 
             {/* 7. Target Users Section */}
             <section className="py-[100px] bg-bg-light">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-[2.5rem] font-bold">Who is FinSight for?</h2>
                     </div>
@@ -192,7 +192,7 @@ const Home = () => {
 
             {/* 8. Pricing Section */}
             <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-[2.5rem] font-bold">Simple, transparent pricing</h2>
                     </div>
