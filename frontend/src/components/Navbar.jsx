@@ -19,7 +19,7 @@ const Navbar = () => {
 
     return (
         <nav className={`fixed top-0 left-0 w-full py-4 transition-all duration-300 z-[1000] ${isScrolled ? 'bg-white shadow-sm py-3' : 'bg-transparent'}`}>
-            <div className="container mx-auto px-8 md:px-12 flex justify-between items-center">
+            <div className="container mx-auto px-6 flex justify-between items-center">
                 <Link to="/" className="flex items-center">
                     <img src="/logo1.png" alt="FinSight Logo" className="h-16 w-auto" />
                 </Link>
@@ -30,7 +30,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex gap-4">
                     <Link to="/login" className="px-4 py-2 border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium text-sm">Login</Link>
-                    <Link to="/signup" className="px-4 py-2 bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium text-sm shadow-md hover:shadow-lg">Sign Up</Link>
+                    <Link to="/register" className="px-4 py-2 bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium text-sm shadow-md hover:shadow-lg">Register</Link>
                 </div>
             </div>
         </nav>

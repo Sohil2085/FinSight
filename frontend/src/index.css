@@ -21,7 +21,7 @@
 
   /* Reset for #root from App.css */
   #root {
-    @apply w-full text-center min-h-screen flex flex-col;
+    @apply w-full max-w-[1280px] mx-auto text-center min-h-screen flex flex-col;
     /* padding: 2rem; - Removed strictly global padding to allow full-width hero sections */
   }
 }
