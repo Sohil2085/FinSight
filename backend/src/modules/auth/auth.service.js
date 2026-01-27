@@ -24,7 +24,17 @@ export const registerService = async (data) => {
     },
   });
 
-  return { user, company };
+  /* eslint-disable no-unused-vars */
+  const { password: _, ...userWithoutPassword } = user;
+  /* eslint-enable no-unused-vars */
+
+  const token = generateToken({
+    userId: user.id,
+    role: user.role,
+    companyId: user.companyId,
+  });
+
+  return { user: userWithoutPassword, company, token };
 };
 
 export const loginService = async (email, password) => {
@@ -34,11 +44,15 @@ export const loginService = async (email, password) => {
   const isValid = await comparePassword(password, user.password);
   if (!isValid) throw new Error("Invalid credentials");
 
+  /* eslint-disable no-unused-vars */
+  const { password: _, ...userWithoutPassword } = user;
+  /* eslint-enable no-unused-vars */
+
   const token = generateToken({
     userId: user.id,
     role: user.role,
     companyId: user.companyId,
   });
 
-  return token;
+  return { token, user: userWithoutPassword };
 };

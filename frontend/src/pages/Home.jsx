@@ -232,7 +232,7 @@ const Home = () => {
 
             {/* 9. Footer */}
             <footer className="w-full bg-primary text-white py-20 pb-10">
-                <div className="max-w-7xl mx-auto px-6">
+                <div className="w-full px-4">
                     <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-16 mb-16 text-left">
                         <div className="footer-brand">
                             <h3 className="text-xl font-bold mb-4">FinSight</h3>
