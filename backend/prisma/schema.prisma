@@ -11,12 +11,19 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
   ADMIN
   ACCOUNTANT
   EMPLOYEE
+}
+
+enum InvoiceStatus {
+  UNPAID
+  PAID
+  OVERDUE
 }
 
 model Company {
@@ -26,6 +33,7 @@ model Company {
   baseCurrency String   @default("INR")
   users        User[]
   createdAt    DateTime @default(now())
+  invoices  Invoice[]
 }
 
 model User {
@@ -37,4 +45,42 @@ model User {
   companyId String
   company   Company  @relation(fields: [companyId], references: [id])
   createdAt DateTime @default(now())
+}
+
+model Invoice {
+  id            String        @id @default(uuid())
+  invoiceNumber String
+  customerName  String
+  invoiceDate   DateTime      @default(now())
+  dueDate       DateTime
+  status        InvoiceStatus @default(UNPAID)
+
+  subtotal      Float
+  totalAmount  Float
+
+  companyId     String
+  company       Company       @relation(fields: [companyId], references: [id])
+
+  items         InvoiceItem[]
+
+  templateType  TemplateType  @default(CLASSIC)
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+enum TemplateType {
+  CLASSIC
+  MODERN
+}
+
+model InvoiceItem {
+  id          String   @id @default(uuid())
+  description String
+  quantity    Int
+  unitPrice   Float
+  total       Float
+
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
 }
