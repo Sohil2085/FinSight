@@ -38,7 +38,10 @@ export const registerService = async (data) => {
 };
 
 export const loginService = async (email, password) => {
-  const user = await prisma.user.findUnique({ where: { email } });
+  const user = await prisma.user.findUnique({
+    where: { email },
+    include: { company: true }  // Include company details
+  });
   if (!user) throw new Error("User not found");
 
   const isValid = await comparePassword(password, user.password);
