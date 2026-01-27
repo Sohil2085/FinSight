@@ -8,6 +8,13 @@ export const getMeService = async (userId) => {
       name: true,
       email: true,
       role: true,
+      company: {
+        select: {
+          id: true,
+          name: true,
+          gstNumber: true,
+        },
+      },
     },
   });
 };

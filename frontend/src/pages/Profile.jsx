@@ -7,7 +7,7 @@ const Profile = () => {
     if (!user) return <div className="pt-24 text-center">Please log in to view profile.</div>;
 
     return (
-        <div className="pt-24 px-6 container mx-auto max-w-2xl">
+        <div className="px-6 container mx-auto max-w-2xl">
             <h1 className="text-3xl font-bold mb-8">Profile Settings</h1>
 
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
@@ -48,8 +48,16 @@ const Profile = () => {
                         <h3 className="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Company Details</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
+                                <label className="block text-sm font-medium text-gray-500 mb-1">Company Name</label>
+                                <p className="text-gray-900 font-medium">{user.company?.name}</p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-500 mb-1">Company GST</label>
+                                <p className="text-gray-900 font-medium">{user.company?.gstNumber}</p>
+                            </div>
+                            <div>
                                 <label className="block text-sm font-medium text-gray-500 mb-1">Company ID</label>
-                                <p className="text-gray-900 font-medium">{user.companyId}</p>
+                                <p className="text-gray-900 font-medium text-sm font-mono">{user.company?.id}</p>
                             </div>
                         </div>
                     </div>

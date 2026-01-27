@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/api';
 import { useAuth } from '../context/AuthContext';
