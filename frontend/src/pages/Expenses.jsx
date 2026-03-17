@@ -1,7 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Filter, Search, PieChart } from 'lucide-react';
+import { getExpenses, getExpenseSummary, createExpense } from '../services/api';
+import CreateExpenseModal from './CreateExpenseModal';
 
 const Expenses = () => {
+    const [expenses, setExpenses] = useState([]);
+    const [summary, setSummary] = useState({ totalExpenses: 0, operations: 0, marketing: 0, software: 0 });
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const token = localStorage.getItem('token');
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const [expensesData, summaryData] = await Promise.all([
+                getExpenses(token, { search: searchTerm }),
+                getExpenseSummary(token)
+            ]);
+            setExpenses(expensesData);
+            setSummary(summaryData);
+        } catch (error) {
+            console.error("Failed to fetch data", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [searchTerm]);
+
+    const handleCreateExpense = async (data) => {
+        try {
+            await createExpense(token, data);
+            fetchData(); // Refresh list
+        } catch (error) {
+            console.error(error);
+            alert(error.message || "Failed to create expense");
+        }
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -12,7 +52,10 @@ const Expenses = () => {
                         <Filter className="w-4 h-4" />
                         Filter
                     </button>
-                    <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors shadow-sm">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors shadow-sm"
+                    >
                         <Plus className="w-4 h-4" />
                         Add Expense
                     </button>
@@ -22,20 +65,20 @@ const Expenses = () => {
             {/* Expense Categories Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-                    <p className="text-sm text-gray-500 mb-1">Total Expenses (Feb)</p>
-                    <p className="text-xl font-bold text-gray-800">$3,240.50</p>
+                    <p className="text-sm text-gray-500 mb-1">Total Expenses</p>
+                    <p className="text-xl font-bold text-gray-800">₹ {summary.totalExpenses.toLocaleString()}</p>
                 </div>
                 <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
                     <p className="text-sm text-gray-500 mb-1">Operations</p>
-                    <p className="text-xl font-bold text-gray-800">$1,800.00</p>
+                    <p className="text-xl font-bold text-gray-800">₹ {summary.operations.toLocaleString()}</p>
                 </div>
                 <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
                     <p className="text-sm text-gray-500 mb-1">Marketing</p>
-                    <p className="text-xl font-bold text-gray-800">$850.50</p>
+                    <p className="text-xl font-bold text-gray-800">₹ {summary.marketing.toLocaleString()}</p>
                 </div>
                 <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
                     <p className="text-sm text-gray-500 mb-1">Software</p>
-                    <p className="text-xl font-bold text-gray-800">$590.00</p>
+                    <p className="text-xl font-bold text-gray-800">₹ {summary.software.toLocaleString()}</p>
                 </div>
             </div>
 
@@ -47,6 +90,8 @@ const Expenses = () => {
                         <input
                             type="text"
                             placeholder="Search expenses..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                         />
                     </div>
@@ -64,21 +109,53 @@ const Expenses = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {/* Empty State */}
-                            <tr>
-                                <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
-                                    <div className="flex flex-col items-center justify-center">
-                                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
-                                            <PieChart className="w-6 h-6 text-gray-400" />
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="5" className="px-6 py-12 text-center text-gray-500">Loading...</td>
+                                </tr>
+                            ) : expenses.length === 0 ? (
+                                <tr>
+                                    <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
+                                        <div className="flex flex-col items-center justify-center">
+                                            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                                                <PieChart className="w-6 h-6 text-gray-400" />
+                                            </div>
+                                            <p>No expenses recorded yet</p>
                                         </div>
-                                        <p>No expenses recorded yet</p>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            ) : (
+                                expenses.map((expense) => (
+                                    <tr key={expense.id} className="hover:bg-gray-50 transition-colors">
+                                        <td className="px-6 py-4 font-medium text-gray-900">{expense.description || '-'}</td>
+                                        <td className="px-6 py-4">
+                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                                ${expense.category === 'Operations' ? 'bg-blue-100 text-blue-800' :
+                                                    expense.category === 'Marketing' ? 'bg-purple-100 text-purple-800' :
+                                                    expense.category === 'Software' ? 'bg-indigo-100 text-indigo-800' :
+                                                    'bg-gray-100 text-gray-800'}`}>
+                                                {expense.category}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-500">{new Date(expense.date).toLocaleDateString()}</td>
+                                        <td className="px-6 py-4 font-medium">₹ {expense.amount.toLocaleString()}</td>
+                                        <td className="px-6 py-4 text-gray-500">
+                                            {/* Empty receipt column placeholder */}
+                                            -
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <CreateExpenseModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onCreate={handleCreateExpense}
+            />
         </div>
     );
 };

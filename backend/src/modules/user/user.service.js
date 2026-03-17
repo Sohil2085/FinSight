@@ -18,3 +18,27 @@ export const getMeService = async (userId) => {
     },
   });
 };
+
+export const updateUserService = async (userId, data) => {
+  const { name, email } = data;
+  return prisma.user.update({
+    where: { id: userId },
+    data: {
+      name,
+      email,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      company: {
+        select: {
+          id: true,
+          name: true,
+          gstNumber: true,
+        },
+      },
+    },
+  });
+};

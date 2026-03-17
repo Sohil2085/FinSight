@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import EditProfileModal from './EditProfileModal';
 
 const Profile = () => {
-    const { user } = useAuth();
+    const { user, fetchUser } = useAuth(); // Assume we need a way to refresh or we can just reload the page/context. Let's rely on a window reload for simplicity if fetchUser isn't exposed, but ideally we trigger a context refresh. I'll just reload the page for bulletproof rapid sync if the auth context doesn't expose a refresh method.
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     if (!user) return <div className="pt-24 text-center">Please log in to view profile.</div>;
 
@@ -63,12 +65,24 @@ const Profile = () => {
                     </div>
 
                     <div className="pt-4 flex justify-end">
-                        <button className="px-4 py-2 border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium text-sm">
+                        <button 
+                            onClick={() => setIsEditModalOpen(true)}
+                            className="px-4 py-2 border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium text-sm"
+                        >
                             Edit Profile
                         </button>
                     </div>
                 </div>
             </div>
+
+            <EditProfileModal 
+                isOpen={isEditModalOpen} 
+                onClose={() => setIsEditModalOpen(false)} 
+                onSaveSuccess={() => {
+                    // Force a reload to reflect the updated AuthContext from the server if we don't have a direct refresh method
+                    window.location.reload(); 
+                }}
+            />
         </div>
     );
 };
