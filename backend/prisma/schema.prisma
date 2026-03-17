@@ -34,6 +34,7 @@ model Company {
   users        User[]
   createdAt    DateTime @default(now())
   invoices  Invoice[]
+  expenses  Expense[]
 }
 
 model User {
@@ -45,6 +46,7 @@ model User {
   companyId String
   company   Company  @relation(fields: [companyId], references: [id])
   createdAt DateTime @default(now())
+  expenses  Expense[]
 }
 
 model Invoice {
@@ -83,4 +85,20 @@ model InvoiceItem {
 
   invoiceId   String
   invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  amount      Float
+  category    String
+  description String?
+  date        DateTime
+  companyId   String
+  createdBy   String
+
+  company     Company  @relation(fields: [companyId], references: [id])
+  user        User     @relation(fields: [createdBy], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
