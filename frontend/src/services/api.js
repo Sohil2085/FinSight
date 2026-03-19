@@ -229,3 +229,35 @@ export const createExpense = async (token, expenseData) => {
         throw error;
     }
 };
+
+/* --- Categorization APIs --- */
+
+export const categorizeExpense = async (token, description) => {
+  try {
+    const response = await fetch(`${API_URL}/ai/categorize`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ description }),
+    });
+
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error("Invalid AI response");
+    }
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to categorize");
+    }
+
+    return data;
+
+  } catch (error) {
+    console.error("AI API Error:", error);
+    throw error;
+  }
+};

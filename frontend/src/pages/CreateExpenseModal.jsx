@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { categorizeExpense } from '../services/api';
 
 const CreateExpenseModal = ({ isOpen, onClose, onCreate }) => {
     const { user } = useAuth();
     const [loading, setLoading] = useState(false);
+    const [isCategorizing, setIsCategorizing] = useState(false);
     const [formData, setFormData] = useState({
         amount: '',
-        category: 'Operations',
+        category: '',
         description: '',
         date: new Date().toISOString().split('T')[0],
     });
@@ -17,6 +19,34 @@ const CreateExpenseModal = ({ isOpen, onClose, onCreate }) => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleAutoCategorize = async () => {
+        if (!formData.description) {
+            alert("Please enter a description first");
+            return;
+        }
+        setIsCategorizing(true);
+        try {
+            const token = localStorage.getItem('token');
+            const data = await categorizeExpense(token, formData.description);
+            if (data) {
+                // Ensure the first letter is capitalized to match options
+                const aiCategory = data.category ? data.category.charAt(0).toUpperCase() + data.category.slice(1) : prev.category;
+                
+                setFormData(prev => ({
+                    ...prev,
+                    category: aiCategory,
+                    amount: data.amount ? String(data.amount) : prev.amount,
+                    description: data.title ? data.title : prev.description
+                }));
+            }
+        } catch (error) {
+            console.error("Auto-categorize failed:", error);
+            alert("Failed to auto-categorize. Please try again.");
+        } finally {
+            setIsCategorizing(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -90,29 +120,38 @@ const CreateExpenseModal = ({ isOpen, onClose, onCreate }) => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                        <select
-                            name="category"
-                            value={formData.category}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow bg-white"
-                        >
-                            <option value="Operations">Operations</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Software">Software</option>
-                            <option value="Other">Other</option>
-                        </select>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                name="description"
+                                value={formData.description}
+                                onChange={handleInputChange}
+                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                                placeholder="What was this expense for?"
+                            />
+                            <button
+                                type="button"
+                                onClick={handleAutoCategorize}
+                                disabled={isCategorizing || !formData.description}
+                                className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-medium hover:bg-purple-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 border border-purple-200"
+                                title="Auto-categorize using AI"
+                            >
+                                <Sparkles className={`w-4 h-4 ${isCategorizing ? 'animate-pulse' : ''}`} />
+                                {isCategorizing ? 'AI...' : 'AI Categorize'}
+                            </button>
+                        </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
                         <input
                             type="text"
-                            name="description"
-                            value={formData.description}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
-                            placeholder="What was this expense for?"
+                            name="category"
+                            value={formData.category}
+                            readOnly
+                            placeholder="AI will prioritize this..."
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed outline-none transition-shadow"
                         />
                     </div>
 

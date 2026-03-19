@@ -133,6 +133,11 @@ const Expenses = () => {
                                                 ${expense.category === 'Operations' ? 'bg-blue-100 text-blue-800' :
                                                     expense.category === 'Marketing' ? 'bg-purple-100 text-purple-800' :
                                                     expense.category === 'Software' ? 'bg-indigo-100 text-indigo-800' :
+                                                    expense.category === 'Food' ? 'bg-orange-100 text-orange-800' :
+                                                    expense.category === 'Travel' ? 'bg-yellow-100 text-yellow-800' :
+                                                    expense.category === 'Bills' ? 'bg-red-100 text-red-800' :
+                                                    expense.category === 'Shopping' ? 'bg-pink-100 text-pink-800' :
+                                                    expense.category === 'Salary' ? 'bg-green-100 text-green-800' :
                                                     'bg-gray-100 text-gray-800'}`}>
                                                 {expense.category}
                                             </span>
