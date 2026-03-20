@@ -9,6 +9,7 @@ import Invoices from './pages/Invoices'
 import Expenses from './pages/Expenses'
 import Team from './pages/Team'
 import Settings from './pages/Settings'
+import AiInsight from './pages/AiInsight'
 import ProtectedRoute from './components/ProtectedRoute'
 import DashboardLayout from './components/DashboardLayout'
 
@@ -47,6 +48,7 @@ function App() {
         <Route path="/expenses" element={<Expenses />} />
         <Route path="/team" element={<Team />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/ai-insight" element={<AiInsight />} />
       </Route>
     </Routes>
   )

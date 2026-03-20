@@ -120,8 +120,8 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
                                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Invoice Items</h3>
                                 <div className="space-y-3">
                                     {formData.items.map((item, index) => (
-                                        <div key={index} className="flex gap-4 items-start">
-                                            <div className="flex-1">
+                                        <div key={index} className="flex flex-wrap sm:flex-nowrap gap-2 sm:gap-4 items-center bg-gray-50 border border-gray-100 p-3 rounded-lg sm:bg-transparent sm:border-transparent sm:p-0 mb-3 sm:mb-0">
+                                            <div className="w-full sm:flex-1">
                                                 <input
                                                     type="text"
                                                     placeholder="Description"
@@ -130,7 +130,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
                                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
                                                 />
                                             </div>
-                                            <div className="w-24">
+                                            <div className="w-[30%] sm:w-24">
                                                 <input
                                                     type="number"
                                                     placeholder="Qty"
@@ -140,7 +140,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
                                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
                                                 />
                                             </div>
-                                            <div className="w-32">
+                                            <div className="w-[35%] sm:w-32">
                                                 <input
                                                     type="number"
                                                     placeholder="Price"
@@ -150,12 +150,13 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
                                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
                                                 />
                                             </div>
-                                            <div className="w-32 pt-2 text-right font-medium text-gray-700">
+                                            <div className="flex-1 sm:w-32 text-right font-medium text-gray-700">
+                                                <span className="sm:hidden text-xs text-gray-500 mr-2">Total</span>
                                                 ₹ {(item.quantity * item.unitPrice).toFixed(2)}
                                             </div>
                                             <button
                                                 onClick={() => removeItem(index)}
-                                                className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                                                className="p-2 text-red-500 hover:bg-red-50 rounded-lg ml-auto sm:ml-0"
                                             >
                                                 <Trash className="w-4 h-4" />
                                             </button>

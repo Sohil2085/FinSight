@@ -28,17 +28,17 @@ const Home = () => {
             <section className="pt-[120px] pb-20 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
                 <div className="container mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center gap-16">
                     <div className="flex-1 text-left">
-                        <h1 className="text-[3.5rem] font-bold mb-6 text-primary leading-[1.1]">Smart Finance & Billing for Growing Businesses</h1>
-                        <p className="text-xl text-text-light mb-10 leading-relaxed">Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
-                        <div className="flex gap-4">
-                            <button className="px-6 py-3 bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl">Get Started Free</button>
-                            <button className="px-6 py-3 border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</button>
+                        <h1 className="text-4xl md:text-[3.5rem] font-bold mb-6 text-primary leading-[1.1]">Smart Finance & Billing for Growing Businesses</h1>
+                        <p className="text-lg md:text-xl text-text-light mb-10 leading-relaxed">Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <button className="w-full sm:w-auto px-6 py-3 bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl">Get Started Free</button>
+                            <button className="w-full sm:w-auto px-6 py-3 border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</button>
                         </div>
                     </div>
                     <div className="flex-1 relative w-full">
-                        <div className="w-full h-[400px] bg-gradient-to-br from-[#0B2545]/5 to-[#0081A7]/10 rounded-2xl flex items-center justify-center text-primary font-semibold text-xl">
-                            <figure>
-                                <img src="/home_page_banner.jpeg" alt="Home Banner" />
+                        <div className="w-full h-[250px] sm:h-[300px] md:h-[400px] bg-gradient-to-br from-[#0B2545]/5 to-[#0081A7]/10 rounded-2xl flex items-center justify-center text-primary font-semibold text-xl overflow-hidden">
+                            <figure className="w-full h-full p-2 md:p-0 flex items-center justify-center">
+                                <img src="/home_page_banner.jpeg" alt="Home Banner" className="max-w-full max-h-full object-contain rounded-xl" />
                             </figure>
                         </div>
                     </div>
@@ -63,8 +63,8 @@ const Home = () => {
             <section className="py-[100px] bg-bg-light" id="solutions">
                 <div className="container mx-auto px-8 md:px-12">
                     <div className="text-center mb-16">
-                        <h2 className="text-[2.5rem] font-bold mb-4">Everything you need to run your business</h2>
-                        <p className="text-lg text-text-light max-w-[600px] mx-auto">Powerful tools to help you manage your finances, invoices, and team effortlessly.</p>
+                        <h2 className="text-3xl md:text-[2.5rem] font-bold mb-4">Everything you need to run your business</h2>
+                        <p className="text-base md:text-lg text-text-light max-w-[600px] mx-auto">Powerful tools to help you manage your finances, invoices, and team effortlessly.</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <FeatureCard
@@ -106,15 +106,15 @@ const Home = () => {
                 <div className="container mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center gap-16">
                     <div className="flex-1 text-left">
                         <div className="mb-8 text-left">
-                            <h2 className="text-[2.5rem] font-bold mb-4">AI that looks out for your business</h2>
-                            <p className="text-lg text-text-light">Don't just track numbers. Understand them with our advanced AI engine that predicts trends and alerts you risks.</p>
+                            <h2 className="text-3xl md:text-[2.5rem] font-bold mb-4">AI that looks out for your business</h2>
+                            <p className="text-base md:text-lg text-text-light">Don't just track numbers. Understand them with our advanced AI engine that predicts trends and alerts you risks.</p>
                         </div>
                         <ul className="list-none text-left my-8">
                             <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Cash flow forecasting</li>
                             <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Smart spending alerts</li>
                             <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Client payment behavior analysis</li>
                         </ul>
-                        <button className="px-6 py-3 bg-accent text-white rounded-lg hover:bg-violet-600 transition-all font-medium shadow-md hover:shadow-lg">See AI in Action</button>
+                        <button className="w-full md:w-auto px-6 py-3 bg-accent text-white rounded-lg hover:bg-violet-600 transition-all font-medium shadow-md hover:shadow-lg">See AI in Action</button>
                     </div>
                     <div className="flex-1 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-white relative shadow-2xl w-full">
                         <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl mb-4 flex items-center gap-4 border-l-4 border-yellow-400">
@@ -139,7 +139,7 @@ const Home = () => {
             <section className="py-[100px] bg-white">
                 <div className="container mx-auto px-8 md:px-12">
                     <div className="text-center mb-12">
-                        <h2 className="text-[2.5rem] font-bold">Get started in minutes</h2>
+                        <h2 className="text-3xl md:text-[2.5rem] font-bold">Get started in minutes</h2>
                     </div>
                     <div className="flex flex-col md:flex-row justify-between relative mt-12 md:before:absolute md:before:top-10 md:before:left-12 md:before:right-12 md:before:h-0.5 md:before:bg-gray-200 md:before:z-0">
                         <div className="relative z-10 text-center flex-1 mb-8 md:mb-0 group cursor-default">
@@ -170,7 +170,7 @@ const Home = () => {
             <section className="py-[100px] bg-bg-light">
                 <div className="container mx-auto px-8 md:px-12">
                     <div className="text-center mb-16">
-                        <h2 className="text-[2.5rem] font-bold">Who is FinSight for?</h2>
+                        <h2 className="text-3xl md:text-[2.5rem] font-bold">Who is FinSight for?</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <UserCard
@@ -196,15 +196,15 @@ const Home = () => {
             <section className="py-[100px] bg-white">
                 <div className="container mx-auto px-8 md:px-12">
                     <div className="text-center mb-16">
-                        <h2 className="text-[2.5rem] font-bold">Simple, transparent pricing</h2>
+                        <h2 className="text-3xl md:text-[2.5rem] font-bold">Simple, transparent pricing</h2>
                     </div>
 
-                    <div className="flex justify-center items-center gap-4 mb-12">
+                    <div className="flex justify-center items-center gap-2 sm:gap-4 mb-12 text-sm sm:text-base">
                         <span className={billingPeriod === 'monthly' ? 'font-bold' : 'font-normal'}>Monthly</span>
-                        <div className={`relative w-[60px] h-[30px] bg-gray-200 rounded-full cursor-pointer transition-colors duration-300 ${billingPeriod === 'yearly' ? 'bg-secondary' : ''}`} onClick={toggleBilling}>
-                            <div className={`absolute top-[2px] left-[2px] w-[26px] h-[26px] bg-white rounded-full transition-transform duration-300 ${billingPeriod === 'yearly' ? 'translate-x-[30px]' : ''}`}></div>
+                        <div className={`relative w-[50px] sm:w-[60px] h-[26px] sm:h-[30px] bg-gray-200 rounded-full cursor-pointer transition-colors duration-300 ${billingPeriod === 'yearly' ? 'bg-secondary' : ''}`} onClick={toggleBilling}>
+                            <div className={`absolute top-[2px] left-[2px] w-[22px] sm:w-[26px] h-[22px] sm:h-[26px] bg-white rounded-full transition-transform duration-300 ${billingPeriod === 'yearly' ? 'translate-x-[24px] sm:translate-x-[30px]' : ''}`}></div>
                         </div>
-                        <span className={billingPeriod === 'yearly' ? 'font-bold' : 'font-normal'}>Yearly <span className="text-sm text-accent">(Save 20%)</span></span>
+                        <span className={billingPeriod === 'yearly' ? 'font-bold' : 'font-normal'}>Yearly <span className="text-xs sm:text-sm text-accent">(Save 20%)</span></span>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
