@@ -33,7 +33,7 @@ const Home = () => {
                         <p className="text-lg md:text-xl text-text-light mb-10 leading-relaxed">Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Link to="/register" className="w-full sm:w-auto px-6 py-3 text-center bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl">Get Started Free</Link>
-                            <a href="mailto:demo@finsight.com" className="w-full sm:w-auto px-6 py-3 text-center border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</a>
+                            <a href="mailto:sohilkareliya9695@gmail.com" className="w-full sm:w-auto px-6 py-3 text-center border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</a>
                         </div>
                     </div>
                     <div className="flex-1 relative w-full">
