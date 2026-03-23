@@ -59,3 +59,50 @@ export const loginService = async (email, password) => {
 
   return { token, user: userWithoutPassword };
 };
+
+export const acceptInviteService = async (data) => {
+  const { token, name, password } = data;
+
+  const invite = await prisma.invite.findUnique({ where: { token } });
+
+  if (!invite) throw new Error("Invalid invite token");
+  if (invite.status !== "PENDING") throw new Error("Invite is already used or expired");
+  if (new Date() > invite.expiresAt) {
+    await prisma.invite.update({ where: { id: invite.id }, data: { status: "EXPIRED" } });
+    throw new Error("Invite token has expired");
+  }
+
+  const hashedPassword = await hashPassword(password);
+
+  const result = await prisma.$transaction(async (tx) => {
+    const user = await tx.user.create({
+      data: {
+        name,
+        email: invite.email,
+        password: hashedPassword,
+        role: invite.role,
+        permissions: invite.permissions,
+        companyId: invite.companyId,
+      }
+    });
+
+    await tx.invite.update({
+      where: { id: invite.id },
+      data: { status: "ACCEPTED" }
+    });
+
+    return user;
+  });
+
+  /* eslint-disable no-unused-vars */
+  const { password: _, ...userWithoutPassword } = result;
+  /* eslint-enable no-unused-vars */
+
+  const jwtToken = generateToken({
+    userId: result.id,
+    role: result.role,
+    companyId: result.companyId,
+  });
+
+  return { token: jwtToken, user: userWithoutPassword };
+};

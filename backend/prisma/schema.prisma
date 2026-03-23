@@ -33,20 +33,24 @@ model Company {
   baseCurrency String   @default("INR")
   users        User[]
   createdAt    DateTime @default(now())
-  invoices  Invoice[]
-  expenses  Expense[]
+  invoices     Invoice[]
+  expenses     Expense[]
+  activityLogs ActivityLog[]
+  invites      Invite[]
 }
 
 model User {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
-  password  String
-  role      Role
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id])
-  createdAt DateTime @default(now())
-  expenses  Expense[]
+  password     String
+  role         Role
+  permissions  Json?
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id])
+  createdAt    DateTime @default(now())
+  expenses     Expense[]
+  activityLogs ActivityLog[]
 }
 
 model Invoice {
@@ -101,4 +105,48 @@ model Expense {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+enum ActivityAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+enum ActivityEntity {
+  INVOICE
+  EXPENSE
+}
+
+model ActivityLog {
+  id        String         @id @default(uuid())
+  userId    String
+  companyId String
+  action    ActivityAction
+  entity    ActivityEntity
+  entityId  String
+  createdAt DateTime       @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+  company   Company  @relation(fields: [companyId], references: [id])
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+}
+
+model Invite {
+  id          String       @id @default(uuid())
+  email       String
+  role        Role
+  permissions Json?
+  companyId   String
+  token       String       @unique
+  expiresAt   DateTime
+  status      InviteStatus @default(PENDING)
+  createdAt   DateTime     @default(now())
+
+  company     Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
 }

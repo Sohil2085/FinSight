@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowDownRight, TrendingUp, AlertCircle, FileText, CheckCircle2, Sparkles, Plus } from 'lucide-react';
-import { getInvoices, getInvoiceSummary, getExpenses, getExpenseSummary, createInvoice, createExpense } from '../services/api';
+import { ArrowUpRight, ArrowDownRight, TrendingUp, AlertCircle, FileText, CheckCircle2, Sparkles, Plus, Activity } from 'lucide-react';
+import { getInvoices, getInvoiceSummary, getExpenses, getExpenseSummary, createInvoice, createExpense, getActivityLogs } from '../services/api';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import CreateInvoiceModal from './CreateInvoiceModal';
 import CreateExpenseModal from './CreateExpenseModal';
@@ -15,6 +15,7 @@ const Dashboard = () => {
     const [recentActivity, setRecentActivity] = useState([]);
     const [invoiceData, setInvoiceData] = useState([]);
     const [expenseData, setExpenseData] = useState([]);
+    const [teamLogs, setTeamLogs] = useState([]);
     const [dataLoading, setDataLoading] = useState(true);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
@@ -137,6 +138,15 @@ const Dashboard = () => {
                     .slice(0, 5);
 
                 setRecentActivity(combined);
+
+                if (user.role === 'ADMIN') {
+                    try {
+                        const logsRes = await getActivityLogs(token);
+                        setTeamLogs(logsRes.data || []);
+                    } catch(e) {
+                         console.error("Failed to load team activity logs", e);
+                    }
+                }
 
             } catch (error) {
                 console.error("Failed to load dashboard data", error);
@@ -352,6 +362,60 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Admin Only: Team Activity Logs Component */}
+            {user.role === 'ADMIN' && (
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 mt-8">
+                    <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+                        <div className="p-2 bg-purple-100 text-purple-600 rounded-lg">
+                            <Activity className="w-5 h-5" />
+                        </div>
+                        <h3 className="font-bold text-gray-900">Audit Trail: Team Activity</h3>
+                    </div>
+                    <div className="p-6">
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                        <th className="pb-4">Team Member</th>
+                                        <th className="pb-4">Action</th>
+                                        <th className="pb-4">Entity</th>
+                                        <th className="pb-4">Timeline</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-50">
+                                    {teamLogs.length === 0 ? (
+                                        <tr>
+                                            <td colSpan="4" className="py-8 text-center text-gray-500">No team activity recorded yet.</td>
+                                        </tr>
+                                    ) : teamLogs.map((log) => (
+                                        <tr key={log.id} className="text-sm text-gray-700">
+                                            <td className="py-4 font-medium flex items-center gap-2">
+                                                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center text-xs font-bold font-mono">
+                                                    {(log.user?.name || log.user?.email || '?').charAt(0).toUpperCase()}
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span>{log.user?.name}</span>
+                                                    <span className="text-xs text-gray-500">{log.user?.email}</span>
+                                                </div>
+                                            </td>
+                                            <td className="py-4">
+                                                <span className={`px-2 py-1 rounded border text-xs font-medium space-x-1 ${log.action.includes('INVITE') ? 'bg-purple-50 text-purple-700 border-purple-200' : 'bg-gray-50 text-gray-700 border-gray-200'}`}>
+                                                    {log.action.replace(/_/g, ' ')}
+                                                </span>
+                                            </td>
+                                            <td className="py-4 text-gray-500">{log.entity} {log.entityId ? `(#${log.entityId.slice(0,6)})` : ''}</td>
+                                            <td className="py-4 text-gray-500">
+                                                {new Date(log.createdAt).toLocaleString()}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <CreateInvoiceModal
                 isOpen={isInvoiceModalOpen}
