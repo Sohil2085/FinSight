@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     ArrowRight,
     CheckCircle2,
@@ -31,8 +32,8 @@ const Home = () => {
                         <h1 className="text-4xl md:text-[3.5rem] font-bold mb-6 text-primary leading-[1.1]">Smart Finance & Billing for Growing Businesses</h1>
                         <p className="text-lg md:text-xl text-text-light mb-10 leading-relaxed">Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="w-full sm:w-auto px-6 py-3 bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl">Get Started Free</button>
-                            <button className="w-full sm:w-auto px-6 py-3 border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</button>
+                            <Link to="/register" className="w-full sm:w-auto px-6 py-3 text-center bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl">Get Started Free</Link>
+                            <a href="mailto:demo@finsight.com" className="w-full sm:w-auto px-6 py-3 text-center border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</a>
                         </div>
                     </div>
                     <div className="flex-1 relative w-full">
@@ -114,7 +115,7 @@ const Home = () => {
                             <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Smart spending alerts</li>
                             <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Client payment behavior analysis</li>
                         </ul>
-                        <button className="w-full md:w-auto px-6 py-3 bg-accent text-white rounded-lg hover:bg-violet-600 transition-all font-medium shadow-md hover:shadow-lg">See AI in Action</button>
+                        <Link to="/register" className="inline-block w-full text-center md:w-auto px-6 py-3 bg-accent text-white rounded-lg hover:bg-violet-600 transition-all font-medium shadow-md hover:shadow-lg">See AI in Action</Link>
                     </div>
                     <div className="flex-1 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-white relative shadow-2xl w-full">
                         <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl mb-4 flex items-center gap-4 border-l-4 border-yellow-400">
@@ -307,7 +308,7 @@ const PricingCard = ({ title, price, features, highlighted = false, period = '' 
                 <li key={i} className="mb-3 flex items-center gap-2"><CheckCircle2 size={16} color="var(--color-secondary)" /> {feat}</li>
             ))}
         </ul>
-        <button className={`w-full py-3 rounded-lg font-medium transition-all ${highlighted ? 'bg-secondary text-white hover:opacity-90 shadow-lg' : 'border border-secondary text-secondary hover:bg-secondary hover:text-white'}`}>Choose {title}</button>
+        <Link to="/register" className={`block w-full py-3 rounded-lg font-medium transition-all text-center ${highlighted ? 'bg-secondary text-white hover:opacity-90 shadow-lg' : 'border border-secondary text-secondary hover:bg-secondary hover:text-white'}`}>Choose {title}</Link>
     </div>
 );
 
