@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { logActivity } from "../activity/activity.service.js";
 
 const prisma = new PrismaClient();
 
@@ -23,6 +24,8 @@ export const createExpense = async (req, res) => {
                 createdBy: userId
             }
         });
+
+        await logActivity(userId, companyId, "CREATE", "EXPENSE", expense.id);
 
         res.status(201).json(expense);
     } catch (error) {

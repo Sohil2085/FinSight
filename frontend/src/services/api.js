@@ -261,3 +261,72 @@ export const categorizeExpense = async (token, description) => {
     throw error;
   }
 };
+
+export const inviteMember = async (token, inviteData) => {
+    try {
+        const response = await fetch(`${API_URL}/company/invite-member`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(inviteData)
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || data.message || "Failed to invite member");
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCompanyMembers = async (token) => {
+    try {
+        const response = await fetch(`${API_URL}/company/me`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || data.message || "Failed to fetch company members");
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getActivityLogs = async (token) => {
+    try {
+        const response = await fetch(`${API_URL}/activity`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || data.message || "Failed to fetch activity logs");
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const acceptInvite = async (acceptData) => {
+    try {
+        const response = await fetch(`${API_URL}/auth/accept-invite`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(acceptData)
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || data.message || "Failed to accept invite");
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};

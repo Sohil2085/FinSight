@@ -77,8 +77,8 @@ const EditProfileModal = ({ isOpen, onClose, onSaveSuccess }) => {
                 await updateUser(token, userData);
             }
 
-            // 2. Update company if changed
-            if (companyChanged) {
+            // 2. Update company if changed and user is admin
+            if (companyChanged && user?.role === 'ADMIN') {
                 await updateCompany(token, companyData);
             }
 
@@ -137,7 +137,10 @@ const EditProfileModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
                     {/* Company Details */}
                     <section>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">Company Details</h3>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b flex justify-between items-center">
+                            Company Details
+                            {user?.role !== 'ADMIN' && <span className="text-xs text-red-500 font-normal">Only Admins can edit</span>}
+                        </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
@@ -146,7 +149,8 @@ const EditProfileModal = ({ isOpen, onClose, onSaveSuccess }) => {
                                     name="name"
                                     value={companyData.name}
                                     onChange={handleCompanyChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                                    disabled={user?.role !== 'ADMIN'}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow disabled:bg-gray-100 disabled:text-gray-500"
                                     required
                                 />
                             </div>
@@ -157,7 +161,8 @@ const EditProfileModal = ({ isOpen, onClose, onSaveSuccess }) => {
                                     name="gstNumber"
                                     value={companyData.gstNumber}
                                     onChange={handleCompanyChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                                    disabled={user?.role !== 'ADMIN'}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow disabled:bg-gray-100 disabled:text-gray-500"
                                 />
                             </div>
                         </div>

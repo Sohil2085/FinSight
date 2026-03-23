@@ -10,6 +10,7 @@ import Expenses from './pages/Expenses'
 import Team from './pages/Team'
 import Settings from './pages/Settings'
 import AiInsight from './pages/AiInsight'
+import Invite from './pages/Invite'
 import ProtectedRoute from './components/ProtectedRoute'
 import DashboardLayout from './components/DashboardLayout'
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/invite" element={<Invite />} />
       </Route>
 
       {/* Protected Routes with Sidebar Layout */}
