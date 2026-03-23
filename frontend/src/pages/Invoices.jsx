@@ -116,8 +116,8 @@ const Invoices = () => {
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                    <table className="w-full text-sm text-left min-w-[800px]">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 whitespace-nowrap">
                             <tr>
                                 <th className="px-6 py-3">Invoice ID</th>
                                 <th className="px-6 py-3">Client</th>
@@ -145,9 +145,9 @@ const Invoices = () => {
                                 </tr>
                             ) : (
                                 invoices.map((invoice) => (
-                                    <tr key={invoice.id} className="hover:bg-gray-50 transition-colors">
+                                <tr key={invoice.id} className="hover:bg-gray-50 transition-colors whitespace-nowrap">
                                         <td className="px-6 py-4 font-medium text-gray-900">#{invoice.invoiceNumber || invoice.id.slice(0, 8)}</td>
-                                        <td className="px-6 py-4">{invoice.customerName}</td>
+                                        <td className="px-6 py-4 truncate max-w-[200px]">{invoice.customerName}</td>
                                         <td className="px-6 py-4 text-gray-500">{new Date(invoice.invoiceDate).toLocaleDateString()}</td>
                                         <td className="px-6 py-4 font-medium">₹ {invoice.totalAmount.toLocaleString()}</td>
                                         <td className="px-6 py-4">

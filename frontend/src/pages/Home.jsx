@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     ArrowRight,
     CheckCircle2,
@@ -25,14 +26,14 @@ const Home = () => {
     return (
         <div className="overflow-x-hidden" >
             {/* 2. Hero Section */}
-            <section className="pt-[120px] pb-20 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
-                <div className="container mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center gap-16">
-                    <div className="flex-1 text-left">
+            <section className="pt-[100px] md:pt-[120px] pb-16 md:pb-20 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
+                <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                    <div className="flex-1 text-center md:text-left">
                         <h1 className="text-4xl md:text-[3.5rem] font-bold mb-6 text-primary leading-[1.1]">Smart Finance & Billing for Growing Businesses</h1>
                         <p className="text-lg md:text-xl text-text-light mb-10 leading-relaxed">Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="w-full sm:w-auto px-6 py-3 bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl">Get Started Free</button>
-                            <button className="w-full sm:w-auto px-6 py-3 border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</button>
+                            <Link to="/register" className="w-full sm:w-auto px-6 py-3 text-center bg-secondary text-white rounded-lg hover:opacity-90 transition-all font-medium shadow-lg hover:shadow-xl">Get Started Free</Link>
+                            <a href="mailto:demo@finsight.com" className="w-full sm:w-auto px-6 py-3 text-center border border-secondary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all font-medium">Request Demo</a>
                         </div>
                     </div>
                     <div className="flex-1 relative w-full">
@@ -60,8 +61,8 @@ const Home = () => {
             </section>
 
             {/* 4. Core Features Section */}
-            <section className="py-[100px] bg-bg-light" id="solutions">
-                <div className="container mx-auto px-8 md:px-12">
+            <section className="py-16 md:py-[100px] bg-bg-light" id="solutions">
+                <div className="container mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-[2.5rem] font-bold mb-4">Everything you need to run your business</h2>
                         <p className="text-base md:text-lg text-text-light max-w-[600px] mx-auto">Powerful tools to help you manage your finances, invoices, and team effortlessly.</p>
@@ -102,10 +103,10 @@ const Home = () => {
             </section>
 
             {/* 5. AI-Powered Insights Section */}
-            <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center gap-16">
-                    <div className="flex-1 text-left">
-                        <div className="mb-8 text-left">
+            <section className="py-16 md:py-[100px] bg-white">
+                <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                    <div className="flex-1 text-center md:text-left">
+                        <div className="mb-8 text-center md:text-left">
                             <h2 className="text-3xl md:text-[2.5rem] font-bold mb-4">AI that looks out for your business</h2>
                             <p className="text-base md:text-lg text-text-light">Don't just track numbers. Understand them with our advanced AI engine that predicts trends and alerts you risks.</p>
                         </div>
@@ -114,7 +115,7 @@ const Home = () => {
                             <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Smart spending alerts</li>
                             <li className="mb-3 flex items-center gap-2"><CheckCircle2 size={18} color="var(--color-accent)" /> Client payment behavior analysis</li>
                         </ul>
-                        <button className="w-full md:w-auto px-6 py-3 bg-accent text-white rounded-lg hover:bg-violet-600 transition-all font-medium shadow-md hover:shadow-lg">See AI in Action</button>
+                        <Link to="/register" className="inline-block w-full text-center md:w-auto px-6 py-3 bg-accent text-white rounded-lg hover:bg-violet-600 transition-all font-medium shadow-md hover:shadow-lg">See AI in Action</Link>
                     </div>
                     <div className="flex-1 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-white relative shadow-2xl w-full">
                         <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl mb-4 flex items-center gap-4 border-l-4 border-yellow-400">
@@ -136,8 +137,8 @@ const Home = () => {
             </section>
 
             {/* 6. How It Works */}
-            <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-8 md:px-12">
+            <section className="py-16 md:py-[100px] bg-white">
+                <div className="container mx-auto px-6 md:px-12">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-[2.5rem] font-bold">Get started in minutes</h2>
                     </div>
@@ -167,8 +168,8 @@ const Home = () => {
             </section>
 
             {/* 7. Target Users Section */}
-            <section className="py-[100px] bg-bg-light">
-                <div className="container mx-auto px-8 md:px-12">
+            <section className="py-16 md:py-[100px] bg-bg-light">
+                <div className="container mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-[2.5rem] font-bold">Who is FinSight for?</h2>
                     </div>
@@ -193,8 +194,8 @@ const Home = () => {
             </section>
 
             {/* 8. Pricing Section */}
-            <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-8 md:px-12">
+            <section className="py-16 md:py-[100px] bg-white">
+                <div className="container mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-[2.5rem] font-bold">Simple, transparent pricing</h2>
                     </div>
@@ -231,9 +232,9 @@ const Home = () => {
             </section>
 
             {/* 9. Footer */}
-            <footer className="w-full bg-primary text-white py-20 pb-10">
-                <div className="w-full px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-16 mb-16 text-left">
+            <footer className="w-full bg-primary text-white py-16 md:py-20 pb-10">
+                <div className="w-full px-6 md:px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-8 md:gap-16 mb-16 text-left">
                         <div className="footer-brand">
                             <h3 className="text-xl font-bold mb-4">FinSight</h3>
                             <p className="text-slate-400 mt-4 max-w-[300px]">Simplifying finance for the modern business. Powered by AI, designed for humans.</p>
@@ -298,7 +299,7 @@ const UserCard = ({ icon, title, desc }) => (
 );
 
 const PricingCard = ({ title, price, features, highlighted = false, period = '' }) => (
-    <div className={`border rounded-2xl p-10 text-center relative ${highlighted ? 'border-secondary bg-secondary/5 scale-105 shadow-xl z-10' : 'border-gray-200'}`}>
+    <div className={`border rounded-2xl p-6 md:p-10 text-center relative ${highlighted ? 'border-secondary bg-secondary/5 md:scale-105 shadow-xl z-10' : 'border-gray-200'}`}>
         {highlighted && <div className="absolute top-0 left-0 w-full p-[5px] bg-secondary text-white rounded-t-2xl text-[0.8rem] font-bold">MOST POPULAR</div>}
         <h3 className={`text-xl font-bold ${highlighted ? 'mt-4' : ''}`}>{title}</h3>
         <div className="text-[2.5rem] font-bold my-6 text-primary">{price}<span className="text-base text-text-light font-normal">{period}</span></div>
@@ -307,7 +308,7 @@ const PricingCard = ({ title, price, features, highlighted = false, period = '' 
                 <li key={i} className="mb-3 flex items-center gap-2"><CheckCircle2 size={16} color="var(--color-secondary)" /> {feat}</li>
             ))}
         </ul>
-        <button className={`w-full py-3 rounded-lg font-medium transition-all ${highlighted ? 'bg-secondary text-white hover:opacity-90 shadow-lg' : 'border border-secondary text-secondary hover:bg-secondary hover:text-white'}`}>Choose {title}</button>
+        <Link to="/register" className={`block w-full py-3 rounded-lg font-medium transition-all text-center ${highlighted ? 'bg-secondary text-white hover:opacity-90 shadow-lg' : 'border border-secondary text-secondary hover:bg-secondary hover:text-white'}`}>Choose {title}</Link>
     </div>
 );
 

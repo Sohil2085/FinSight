@@ -33,7 +33,7 @@ const DashboardLayout = ({ children }) => {
             )}
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 overflow-y-auto h-[calc(100vh-64px)] md:h-screen">
+            <main className="flex-1 p-4 md:p-8 overflow-y-auto h-[calc(100vh-64px)] md:h-screen min-w-0">
                 <div className="max-w-7xl mx-auto">
                     {children}
                 </div>
