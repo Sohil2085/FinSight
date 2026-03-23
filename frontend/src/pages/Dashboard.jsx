@@ -53,7 +53,8 @@ const Dashboard = () => {
                         change: 'All time',
                         isPositive: true,
                         icon: FileText,
-                        color: 'bg-blue-500'
+                        iconColor: 'text-blue-600',
+                        bgColor: 'bg-blue-50'
                     },
                     {
                         label: 'Total Expenses',
@@ -61,7 +62,8 @@ const Dashboard = () => {
                         change: 'All time',
                         isPositive: true,
                         icon: ArrowDownRight,
-                        color: 'bg-red-500'
+                        iconColor: 'text-rose-600',
+                        bgColor: 'bg-rose-50'
                     },
                     {
                         label: 'Pending Payments',
@@ -69,7 +71,8 @@ const Dashboard = () => {
                         change: 'To collect',
                         isPositive: false,
                         icon: AlertCircle,
-                        color: 'bg-yellow-500'
+                        iconColor: 'text-amber-600',
+                        bgColor: 'bg-amber-50'
                     },
                     {
                         label: 'Cash Balance',
@@ -77,7 +80,8 @@ const Dashboard = () => {
                         change: 'Paid - Expenses',
                         isPositive: cashBalance >= 0,
                         icon: TrendingUp,
-                        color: 'bg-green-500'
+                        iconColor: 'text-emerald-600',
+                        bgColor: 'bg-emerald-50'
                     },
                 ];
 
@@ -218,8 +222,8 @@ const Dashboard = () => {
                 {stats.map((stat, index) => (
                     <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex justify-between items-start mb-4">
-                            <div className={`p-2 rounded-lg ${stat.color} bg-opacity-10`}>
-                                <stat.icon className={`w-6 h-6 ${stat.color.replace('bg-', 'text-')}`} />
+                            <div className={`p-3 rounded-xl ${stat.bgColor}`}>
+                                <stat.icon className={`w-6 h-6 ${stat.iconColor}`} />
                             </div>
                             <span className={`text-xs font-medium px-2 py-1 rounded-full ${stat.isPositive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                                 {stat.change}
@@ -317,9 +321,9 @@ const Dashboard = () => {
                 </div>
                 <div className="p-6">
                     <div className="overflow-x-auto">
-                        <table className="w-full">
+                        <table className="w-full min-w-[700px]">
                             <thead>
-                                <tr className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <tr className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     <th className="pb-4">Description</th>
                                     <th className="pb-4">Type</th>
                                     <th className="pb-4">Date</th>
@@ -333,17 +337,17 @@ const Dashboard = () => {
                                         <td colSpan="5" className="py-8 text-center text-gray-500">No recent activity yet. Create an invoice or add an expense to see it here.</td>
                                     </tr>
                                 ) : recentActivity.map((item) => (
-                                    <tr key={item.id} className="text-sm text-gray-700">
-                                        <td className="py-4 font-medium">{item.description}</td>
-                                        <td className="py-4">
+                                    <tr key={item.id} className="text-sm text-gray-700 whitespace-nowrap">
+                                        <td className="py-4 font-medium px-2">{item.description}</td>
+                                        <td className="py-4 px-2">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.type === 'Invoice' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'
                                                 }`}>
                                                 {item.type}
                                             </span>
                                         </td>
-                                        <td className="py-4 text-gray-500">{item.date}</td>
-                                        <td className="py-4 font-medium">{item.amount}</td>
-                                        <td className="py-4">
+                                        <td className="py-4 text-gray-500 px-2">{item.date}</td>
+                                        <td className="py-4 font-medium px-2">{item.amount}</td>
+                                        <td className="py-4 px-2">
                                             <div className="flex items-center gap-1.5">
                                                 {item.status === 'Paid' || item.status === 'Completed' ? (
                                                     <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -374,9 +378,9 @@ const Dashboard = () => {
                     </div>
                     <div className="p-6">
                         <div className="overflow-x-auto">
-                            <table className="w-full">
+                            <table className="w-full min-w-[800px]">
                                 <thead>
-                                    <tr className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <tr className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                         <th className="pb-4">Team Member</th>
                                         <th className="pb-4">Action</th>
                                         <th className="pb-4">Entity</th>
@@ -389,9 +393,9 @@ const Dashboard = () => {
                                             <td colSpan="4" className="py-8 text-center text-gray-500">No team activity recorded yet.</td>
                                         </tr>
                                     ) : teamLogs.map((log) => (
-                                        <tr key={log.id} className="text-sm text-gray-700">
-                                            <td className="py-4 font-medium flex items-center gap-2">
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center text-xs font-bold font-mono">
+                                        <tr key={log.id} className="text-sm text-gray-700 whitespace-nowrap">
+                                            <td className="py-4 font-medium flex items-center gap-3 px-2">
+                                                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center text-xs font-bold font-mono shrink-0">
                                                     {(log.user?.name || log.user?.email || '?').charAt(0).toUpperCase()}
                                                 </div>
                                                 <div className="flex flex-col">
@@ -399,13 +403,13 @@ const Dashboard = () => {
                                                     <span className="text-xs text-gray-500">{log.user?.email}</span>
                                                 </div>
                                             </td>
-                                            <td className="py-4">
+                                            <td className="py-4 px-2">
                                                 <span className={`px-2 py-1 rounded border text-xs font-medium space-x-1 ${log.action.includes('INVITE') ? 'bg-purple-50 text-purple-700 border-purple-200' : 'bg-gray-50 text-gray-700 border-gray-200'}`}>
                                                     {log.action.replace(/_/g, ' ')}
                                                 </span>
                                             </td>
-                                            <td className="py-4 text-gray-500">{log.entity} {log.entityId ? `(#${log.entityId.slice(0,6)})` : ''}</td>
-                                            <td className="py-4 text-gray-500">
+                                            <td className="py-4 text-gray-500 px-2">{log.entity} {log.entityId ? `(#${log.entityId.slice(0,6)})` : ''}</td>
+                                            <td className="py-4 text-gray-500 px-2">
                                                 {new Date(log.createdAt).toLocaleString()}
                                             </td>
                                         </tr>

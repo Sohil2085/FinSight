@@ -117,12 +117,12 @@ const Team = () => {
                                     {member.avatar}
                                 </div>
 
-                                <div className="flex-1">
-                                    <h3 className="font-medium text-gray-900">{member.name}</h3>
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-medium text-gray-900 truncate">{member.name}</h3>
                                     <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1 text-sm text-gray-500">
-                                        <div className="flex items-center gap-1">
-                                            <Mail className="w-3 h-3" />
-                                            {member.email}
+                                        <div className="flex items-center gap-1 truncate max-w-full">
+                                            <Mail className="w-3 h-3 shrink-0" />
+                                            <span className="truncate">{member.email}</span>
                                         </div>
                                         <div className="flex items-center gap-1">
                                             <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${member.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' :

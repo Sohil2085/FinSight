@@ -98,8 +98,8 @@ const Expenses = () => {
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                    <table className="w-full text-sm text-left min-w-[800px]">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 whitespace-nowrap">
                             <tr>
                                 <th className="px-6 py-3">Description</th>
                                 <th className="px-6 py-3">Category</th>
@@ -126,8 +126,8 @@ const Expenses = () => {
                                 </tr>
                             ) : (
                                 expenses.map((expense) => (
-                                    <tr key={expense.id} className="hover:bg-gray-50 transition-colors">
-                                        <td className="px-6 py-4 font-medium text-gray-900">{expense.description || '-'}</td>
+                                <tr key={expense.id} className="hover:bg-gray-50 transition-colors whitespace-nowrap">
+                                        <td className="px-6 py-4 font-medium text-gray-900 truncate max-w-[200px]">{expense.description || '-'}</td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                                                 ${expense.category === 'Operations' ? 'bg-blue-100 text-blue-800' :

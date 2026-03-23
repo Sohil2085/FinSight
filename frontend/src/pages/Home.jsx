@@ -25,9 +25,9 @@ const Home = () => {
     return (
         <div className="overflow-x-hidden" >
             {/* 2. Hero Section */}
-            <section className="pt-[120px] pb-20 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
-                <div className="container mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center gap-16">
-                    <div className="flex-1 text-left">
+            <section className="pt-[100px] md:pt-[120px] pb-16 md:pb-20 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
+                <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                    <div className="flex-1 text-center md:text-left">
                         <h1 className="text-4xl md:text-[3.5rem] font-bold mb-6 text-primary leading-[1.1]">Smart Finance & Billing for Growing Businesses</h1>
                         <p className="text-lg md:text-xl text-text-light mb-10 leading-relaxed">Automate invoicing and cash-flow with AI-powered insights. Save time and make smarter decisions.</p>
                         <div className="flex flex-col sm:flex-row gap-4">
@@ -60,8 +60,8 @@ const Home = () => {
             </section>
 
             {/* 4. Core Features Section */}
-            <section className="py-[100px] bg-bg-light" id="solutions">
-                <div className="container mx-auto px-8 md:px-12">
+            <section className="py-16 md:py-[100px] bg-bg-light" id="solutions">
+                <div className="container mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-[2.5rem] font-bold mb-4">Everything you need to run your business</h2>
                         <p className="text-base md:text-lg text-text-light max-w-[600px] mx-auto">Powerful tools to help you manage your finances, invoices, and team effortlessly.</p>
@@ -102,10 +102,10 @@ const Home = () => {
             </section>
 
             {/* 5. AI-Powered Insights Section */}
-            <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center gap-16">
-                    <div className="flex-1 text-left">
-                        <div className="mb-8 text-left">
+            <section className="py-16 md:py-[100px] bg-white">
+                <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                    <div className="flex-1 text-center md:text-left">
+                        <div className="mb-8 text-center md:text-left">
                             <h2 className="text-3xl md:text-[2.5rem] font-bold mb-4">AI that looks out for your business</h2>
                             <p className="text-base md:text-lg text-text-light">Don't just track numbers. Understand them with our advanced AI engine that predicts trends and alerts you risks.</p>
                         </div>
@@ -136,8 +136,8 @@ const Home = () => {
             </section>
 
             {/* 6. How It Works */}
-            <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-8 md:px-12">
+            <section className="py-16 md:py-[100px] bg-white">
+                <div className="container mx-auto px-6 md:px-12">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-[2.5rem] font-bold">Get started in minutes</h2>
                     </div>
@@ -167,8 +167,8 @@ const Home = () => {
             </section>
 
             {/* 7. Target Users Section */}
-            <section className="py-[100px] bg-bg-light">
-                <div className="container mx-auto px-8 md:px-12">
+            <section className="py-16 md:py-[100px] bg-bg-light">
+                <div className="container mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-[2.5rem] font-bold">Who is FinSight for?</h2>
                     </div>
@@ -193,8 +193,8 @@ const Home = () => {
             </section>
 
             {/* 8. Pricing Section */}
-            <section className="py-[100px] bg-white">
-                <div className="container mx-auto px-8 md:px-12">
+            <section className="py-16 md:py-[100px] bg-white">
+                <div className="container mx-auto px-6 md:px-12">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-[2.5rem] font-bold">Simple, transparent pricing</h2>
                     </div>
@@ -231,9 +231,9 @@ const Home = () => {
             </section>
 
             {/* 9. Footer */}
-            <footer className="w-full bg-primary text-white py-20 pb-10">
-                <div className="w-full px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-16 mb-16 text-left">
+            <footer className="w-full bg-primary text-white py-16 md:py-20 pb-10">
+                <div className="w-full px-6 md:px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-8 md:gap-16 mb-16 text-left">
                         <div className="footer-brand">
                             <h3 className="text-xl font-bold mb-4">FinSight</h3>
                             <p className="text-slate-400 mt-4 max-w-[300px]">Simplifying finance for the modern business. Powered by AI, designed for humans.</p>
@@ -298,7 +298,7 @@ const UserCard = ({ icon, title, desc }) => (
 );
 
 const PricingCard = ({ title, price, features, highlighted = false, period = '' }) => (
-    <div className={`border rounded-2xl p-10 text-center relative ${highlighted ? 'border-secondary bg-secondary/5 scale-105 shadow-xl z-10' : 'border-gray-200'}`}>
+    <div className={`border rounded-2xl p-6 md:p-10 text-center relative ${highlighted ? 'border-secondary bg-secondary/5 md:scale-105 shadow-xl z-10' : 'border-gray-200'}`}>
         {highlighted && <div className="absolute top-0 left-0 w-full p-[5px] bg-secondary text-white rounded-t-2xl text-[0.8rem] font-bold">MOST POPULAR</div>}
         <h3 className={`text-xl font-bold ${highlighted ? 'mt-4' : ''}`}>{title}</h3>
         <div className="text-[2.5rem] font-bold my-6 text-primary">{price}<span className="text-base text-text-light font-normal">{period}</span></div>
