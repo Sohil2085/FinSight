@@ -7,4 +7,15 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
+          charts: ['recharts'],
+          pdf: ['html2pdf.js', 'jspdf', 'jspdf-autotable']
+        }
+      }
+    }
+  }
 })
