@@ -111,11 +111,13 @@ enum ActivityAction {
   CREATE
   UPDATE
   DELETE
+  INVITE_SENT
 }
 
 enum ActivityEntity {
   INVOICE
   EXPENSE
+  USER
 }
 
 model ActivityLog {
