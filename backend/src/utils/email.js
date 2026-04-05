@@ -63,3 +63,68 @@ export const sendInviteEmail = async (email, companyName, role, inviteLink) => {
     // don't throw here to avoid failing the whole request just because email failed
   }
 };
+
+export const sendInvoiceEmail = async (email, companyName, invoiceNumber, pdfDataUri) => {
+  try {
+    let transporter;
+
+    if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+      transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT || 587,
+        secure: process.env.SMTP_SECURE === "true",
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+    } else {
+      try {
+        const testAccount = await nodemailer.createTestAccount();
+        transporter = nodemailer.createTransport({
+          host: "smtp.ethereal.email",
+          port: 587,
+          secure: false,
+          auth: {
+            user: testAccount.user,
+            pass: testAccount.pass,
+          },
+        });
+      } catch (err) {}
+    }
+
+    const mailOptions = {
+        from: '"FinSight" <noreply@finsight.com>',
+        to: email,
+        subject: `Invoice #${invoiceNumber} from ${companyName}`,
+        text: `Please find attached your invoice #${invoiceNumber} from ${companyName}.\nThank you for your business!`,
+        html: `<p>Please find attached your invoice <strong>#${invoiceNumber}</strong> from <strong>${companyName}</strong>.</p>
+               <p>Thank you for your business!</p>`,
+        attachments: [
+            {
+                filename: `Invoice_${invoiceNumber}.pdf`,
+                path: pdfDataUri
+            }
+        ]
+    };
+
+    if (transporter) {
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Invoice email sent: %s", info.messageId);
+        if (info.messageId && nodemailer.getTestMessageUrl) {
+            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        }
+        return true;
+    } else {
+        console.log("--- EMAIL MOCK ---");
+        console.log("To:", email);
+        console.log("Subject:", mailOptions.subject);
+        console.log("Attached PDF Base64 string length:", pdfDataUri?.length);
+        console.log("------------------");
+        return true;
+    }
+  } catch (error) {
+    console.error("Error sending invoice email:", error);
+    throw error;
+  }
+};

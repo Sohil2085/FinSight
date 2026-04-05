@@ -3,6 +3,7 @@ import { Routes, Route, Outlet } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import DashboardLayout from './components/DashboardLayout'
+import { Toaster } from 'react-hot-toast'
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/Home'))
@@ -37,6 +38,7 @@ function App() {
 
   return (
     <Suspense fallback={<LoadingFallback />}>
+      <Toaster position="top-right" />
       <Routes>
         {/* Public Routes with Navbar */}
         <Route element={<PublicLayout />}>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Filter, Search, FileText, CheckCircle2, AlertCircle, Clock, Download } from 'lucide-react';
-import { getInvoices, getInvoiceSummary, createInvoice, updateInvoiceStatus } from '../services/api';
+import { Plus, Filter, Search, FileText, CheckCircle2, AlertCircle, Clock, Download, Mail } from 'lucide-react';
+import { getInvoices, getInvoiceSummary, createInvoice, updateInvoiceStatus, addInvoicePayment, sendInvoiceEmail } from '../services/api';
 import CreateInvoiceModal from './CreateInvoiceModal';
-import { generateInvoicePDF } from '../utils/generateInvoicePDF';
+import { generateInvoicePDF, generateInvoiceBase64 } from '../utils/generateInvoicePDF';
+import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
 const Invoices = () => {
@@ -45,12 +46,17 @@ const Invoices = () => {
         }
     };
 
-    const handleMarkPaid = async (id) => {
+    const handleAddPayment = async (id, maxAmount) => {
+        const amountStr = window.prompt(`Enter payment amount (Max: ₹${maxAmount}):`, maxAmount);
+        if (!amountStr) return;
+        const amount = Number(amountStr);
+        if (isNaN(amount) || amount <= 0) return alert("Invalid amount!");
         try {
-            await updateInvoiceStatus(token, id, 'PAID');
+            await addInvoicePayment(token, id, amount);
             fetchData();
         } catch (error) {
-            console.error("Failed to update status", error);
+            console.error("Failed to add payment", error);
+            alert("Failed to record payment");
         }
     };
 
@@ -60,7 +66,23 @@ const Invoices = () => {
             generateInvoicePDF(invoice, user?.company);
         } catch (error) {
             console.error("PDF generation failed", error);
-            alert("Failed to generate PDF");
+            toast.error("Failed to generate PDF");
+        }
+    };
+
+    const handleSendEmail = async (invoice) => {
+        try {
+            const pdfBase64 = generateInvoiceBase64(invoice, user?.company);
+            await sendInvoiceEmail(token, invoice.id, {
+                customerEmail: invoice.customerEmail,
+                companyName: user?.company?.name,
+                invoiceNumber: invoice.invoiceNumber,
+                pdfDataUri: pdfBase64
+            });
+            toast.success("Invoice securely emailed to client!");
+        } catch (error) {
+            console.error("Email failed:", error);
+            toast.error("Failed to send email");
         }
     };
 
@@ -149,15 +171,22 @@ const Invoices = () => {
                                         <td className="px-6 py-4 font-medium text-gray-900">#{invoice.invoiceNumber || invoice.id.slice(0, 8)}</td>
                                         <td className="px-6 py-4 truncate max-w-[200px]">{invoice.customerName}</td>
                                         <td className="px-6 py-4 text-gray-500">{new Date(invoice.invoiceDate).toLocaleDateString()}</td>
-                                        <td className="px-6 py-4 font-medium">₹ {invoice.totalAmount.toLocaleString()}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="font-medium text-gray-900">₹ {(invoice.grandTotal ?? invoice.totalAmount).toLocaleString()}</div>
+                                            {(invoice.status === 'PARTIALLY_PAID' || invoice.amountPaid > 0) && invoice.status !== 'PAID' && (
+                                                <div className="text-xs text-blue-600 mt-0.5 font-medium">
+                                                    ₹{invoice.amountPaid?.toLocaleString()} Paid
+                                                </div>
+                                            )}
+                                        </td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium
                                                 ${invoice.status === 'PAID' ? 'bg-green-100 text-green-800' :
-                                                    invoice.status === 'OVERDUE' ? 'bg-red-100 text-red-800' :
+                                                    (invoice.status === 'OVERDUE' || invoice.status === 'PARTIALLY_PAID') && invoice.balanceDue > 0 ? 'bg-orange-100 text-orange-800' :
                                                         'bg-yellow-100 text-yellow-800'}`}>
                                                 {invoice.status === 'PAID' && <CheckCircle2 className="w-3 h-3" />}
                                                 {invoice.status === 'UNPAID' && <Clock className="w-3 h-3" />}
-                                                {invoice.status === 'OVERDUE' && <AlertCircle className="w-3 h-3" />}
+                                                {(invoice.status === 'OVERDUE' || invoice.status === 'PARTIALLY_PAID') && <AlertCircle className="w-3 h-3" />}
                                                 {invoice.status}
                                             </span>
                                         </td>
@@ -170,12 +199,21 @@ const Invoices = () => {
                                                 >
                                                     <Download className="w-4 h-4" />
                                                 </button>
+                                                {invoice.customerEmail && (
+                                                    <button
+                                                        onClick={() => handleSendEmail(invoice)}
+                                                        className="text-gray-500 hover:text-green-600 transition-colors"
+                                                        title={`Email PDF to ${invoice.customerEmail}`}
+                                                    >
+                                                        <Mail className="w-4 h-4" />
+                                                    </button>
+                                                )}
                                                 {invoice.status !== 'PAID' && (
                                                     <button
-                                                        onClick={() => handleMarkPaid(invoice.id)}
+                                                        onClick={() => handleAddPayment(invoice.id, invoice.balanceDue ?? invoice.totalAmount)}
                                                         className="text-blue-600 hover:text-blue-900 text-xs font-medium border border-blue-200 px-3 py-1 rounded hover:bg-blue-50 transition-colors"
                                                     >
-                                                        Mark Paid
+                                                        Record Payment
                                                     </button>
                                                 )}
                                             </div>
