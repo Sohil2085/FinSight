@@ -10,7 +10,7 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-IN');
 };
 
-export const generateInvoicePDF = (invoice, company) => {
+export const buildPdfDocument = (invoice, company) => {
     const doc = new jsPDF();
     const isModern = invoice.templateType === 'MODERN';
 
@@ -80,11 +80,24 @@ export const generateInvoicePDF = (invoice, company) => {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
     doc.setTextColor(...secondaryColor);
-    doc.text("BILL TO", 18, yPos + 5);
+    doc.text("BILL TO:", 18, yPos + 5);
 
     doc.setFontSize(12);
     doc.setTextColor(...textColor);
     doc.text(invoice.customerName, 18, yPos + 12);
+    
+    let billToY = yPos + 17;
+    doc.setFontSize(10);
+    doc.setTextColor(...secondaryColor);
+    doc.setFont("helvetica", "normal");
+    
+    if (invoice.customerEmail) {
+        doc.text(invoice.customerEmail, 18, billToY);
+        billToY += 5;
+    }
+    if (invoice.customerPhone) {
+        doc.text(`Ph: ${invoice.customerPhone}`, 18, billToY);
+    }
 
     // --- Items Table ---
     yPos = 85;
@@ -151,6 +164,15 @@ export const generateInvoicePDF = (invoice, company) => {
     doc.setFont("helvetica", "normal");
     doc.text("Thank you for your business!", 105, pageHeight - 15, { align: "center" });
 
-    // Save
+    return doc;
+};
+
+export const generateInvoicePDF = (invoice, company) => {
+    const doc = buildPdfDocument(invoice, company);
     doc.save(`Invoice_${invoice.invoiceNumber || invoice.id.slice(0, 8)}.pdf`);
+};
+
+export const generateInvoiceBase64 = (invoice, company) => {
+    const doc = buildPdfDocument(invoice, company);
+    return doc.output('datauristring');
 };

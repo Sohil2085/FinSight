@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -23,16 +23,17 @@ enum Role {
 enum InvoiceStatus {
   UNPAID
   PAID
+  PARTIALLY_PAID
   OVERDUE
 }
 
 model Company {
-  id           String   @id @default(uuid())
+  id           String        @id @default(uuid())
   name         String
   gstNumber    String?
-  baseCurrency String   @default("INR")
+  baseCurrency String        @default("INR")
   users        User[]
-  createdAt    DateTime @default(now())
+  createdAt    DateTime      @default(now())
   invoices     Invoice[]
   expenses     Expense[]
   activityLogs ActivityLog[]
@@ -40,15 +41,15 @@ model Company {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
   password     String
   role         Role
   permissions  Json?
   companyId    String
-  company      Company  @relation(fields: [companyId], references: [id])
-  createdAt    DateTime @default(now())
+  company      Company       @relation(fields: [companyId], references: [id])
+  createdAt    DateTime      @default(now())
   expenses     Expense[]
   activityLogs ActivityLog[]
 }
@@ -57,22 +58,34 @@ model Invoice {
   id            String        @id @default(uuid())
   invoiceNumber String
   customerName  String
+  customerEmail String?
+  customerPhone String?
   invoiceDate   DateTime      @default(now())
   dueDate       DateTime
   status        InvoiceStatus @default(UNPAID)
 
-  subtotal      Float
-  totalAmount  Float
+  subtotal    Float
+  totalAmount Float
 
-  companyId     String
-  company       Company       @relation(fields: [companyId], references: [id])
+  discount  Float @default(0)
+  cgstTotal Float @default(0)
+  sgstTotal Float @default(0)
+  igstTotal Float @default(0)
+  roundOff  Float @default(0)
 
-  items         InvoiceItem[]
+  amountPaid Float @default(0)
+  balanceDue Float @default(0)
 
-  templateType  TemplateType  @default(CLASSIC)
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
 
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  items    InvoiceItem[]
+  payments Payment[]
+
+  templateType TemplateType @default(CLASSIC)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum TemplateType {
@@ -81,14 +94,18 @@ enum TemplateType {
 }
 
 model InvoiceItem {
-  id          String   @id @default(uuid())
+  id          String @id @default(uuid())
   description String
   quantity    Int
   unitPrice   Float
   total       Float
 
-  invoiceId   String
-  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  discount  Float @default(0)
+  gstRate   Float @default(0)
+  gstAmount Float @default(0)
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
 }
 
 model Expense {
@@ -100,11 +117,11 @@ model Expense {
   companyId   String
   createdBy   String
 
-  company     Company  @relation(fields: [companyId], references: [id])
-  user        User     @relation(fields: [createdBy], references: [id])
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [createdBy], references: [id])
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum ActivityAction {
@@ -129,8 +146,8 @@ model ActivityLog {
   entityId  String
   createdAt DateTime       @default(now())
 
-  user      User     @relation(fields: [userId], references: [id])
-  company   Company  @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+  company Company @relation(fields: [companyId], references: [id])
 }
 
 enum InviteStatus {
@@ -150,5 +167,19 @@ model Invite {
   status      InviteStatus @default(PENDING)
   createdAt   DateTime     @default(now())
 
-  company     Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id          String   @id @default(uuid())
+  amount      Float
+  paymentDate DateTime @default(now())
+  method      String
+  referenceId String?
+  notes       String?
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+
+  createdAt DateTime @default(now())
 }

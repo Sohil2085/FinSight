@@ -108,7 +108,7 @@ const Dashboard = () => {
                     const dateObj = new Date(inv.invoiceDate);
                     const dateStr = `${dateObj.getDate()}/${dateObj.getMonth() + 1}`;
                     if (!invoiceMap[dateStr]) invoiceMap[dateStr] = 0;
-                    invoiceMap[dateStr] += inv.totalAmount;
+                    invoiceMap[dateStr] += (inv.grandTotal ?? inv.totalAmount);
                 });
                 const invoiceChartData = Object.keys(invoiceMap).map(date => ({
                     date,
@@ -121,7 +121,7 @@ const Dashboard = () => {
                     id: `inv-${i.id}`,
                     type: 'Invoice',
                     description: i.customerName || `Invoice #${i.invoiceNumber || i.id.slice(0,8)}`,
-                    amount: `₹ ${i.totalAmount.toLocaleString()}`,
+                    amount: `₹ ${(i.grandTotal ?? i.totalAmount).toLocaleString()}`,
                     status: i.status === 'PAID' ? 'Paid' : i.status === 'UNPAID' ? 'Pending' : 'Overdue',
                     dateObj: new Date(i.invoiceDate),
                     date: new Date(i.invoiceDate).toLocaleDateString()

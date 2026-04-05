@@ -175,6 +175,42 @@ export const updateInvoiceStatus = async (token, id, status) => {
     }
 };
 
+export const addInvoicePayment = async (token, id, amount, method = 'UPI') => {
+    try {
+        const response = await fetch(`${API_URL}/invoices/${id}/payments`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ amount, method })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Failed to add payment");
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const sendInvoiceEmail = async (token, id, emailData) => {
+    try {
+        const response = await fetch(`${API_URL}/invoices/${id}/send`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(emailData)
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Failed to send email");
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 /* --- Expense APIs --- */
 
 export const getExpenses = async (token, filters = {}) => {

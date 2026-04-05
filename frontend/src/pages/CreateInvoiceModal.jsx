@@ -6,10 +6,14 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         customerName: '',
+        customerEmail: '',
+        customerPhone: '',
         invoiceDate: new Date().toISOString().split('T')[0],
         dueDate: '',
-        items: [{ description: '', quantity: 1, unitPrice: 0 }],
-        templateType: 'CLASSIC' // Default template
+        gstType: 'INTRA',
+        discount: 0,
+        items: [{ description: '', quantity: 1, unitPrice: 0, gstRate: 0, discount: 0 }],
+        templateType: 'CLASSIC'
     });
 
     if (!isOpen) return null;
@@ -28,7 +32,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
     const addItem = () => {
         setFormData(prev => ({
             ...prev,
-            items: [...prev.items, { description: '', quantity: 1, unitPrice: 0 }]
+            items: [...prev.items, { description: '', quantity: 1, unitPrice: 0, gstRate: 0, discount: 0 }]
         }));
     };
 
@@ -41,8 +45,43 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
         }
     };
 
-    const calculateSubtotal = () => {
-        return formData.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
+    const calculatePreview = () => {
+        let subtotalCent = 0;
+        let totalGSTCent = 0;
+        let cgstCent = 0;
+        let sgstCent = 0;
+        let igstCent = 0;
+
+        formData.items.forEach(item => {
+            const qty = Number(item.quantity) || 0;
+            const priceCent = Math.round((Number(item.unitPrice) || 0) * 100);
+            const itemDiscountCent = Math.round((Number(item.discount) || 0) * 100);
+            const gstRate = Number(item.gstRate) || 0;
+
+            const baseTotalCent = Math.max(0, (qty * priceCent) - itemDiscountCent);
+            const gstAmountCent = Math.round(baseTotalCent * (gstRate / 100));
+            
+            subtotalCent += baseTotalCent;
+            totalGSTCent += gstAmountCent;
+        });
+
+        if (formData.gstType === 'INTER') {
+            igstCent = totalGSTCent;
+        } else {
+            cgstCent = Math.round(totalGSTCent / 2);
+            sgstCent = totalGSTCent - cgstCent; 
+        }
+
+        const safeInvoiceDiscountCent = Math.round((Number(formData.discount) || 0) * 100);
+        const preRoundTotalCent = Math.max(0, subtotalCent + totalGSTCent - safeInvoiceDiscountCent);
+
+        return {
+            subTotal: subtotalCent / 100,
+            cgst: cgstCent / 100,
+            sgst: sgstCent / 100,
+            igst: igstCent / 100,
+            grandTotal: Math.round(preRoundTotalCent / 100)
+        };
     };
 
     const handleSubmit = async () => {
@@ -80,86 +119,177 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
                 <div className="p-6">
                     {step === 1 ? (
                         <div className="space-y-6">
-                            {/* Customer & Dates */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
-                                    <input
-                                        type="text"
-                                        name="customerName"
-                                        value={formData.customerName}
-                                        onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                        placeholder="Enter client name"
-                                    />
+                            {/* Customer & Dates Configuration */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                
+                                {/* Legal Client Block */}
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-semibold text-gray-800 border-b border-gray-100 pb-2">Client Details</h3>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Customer / Company Name</label>
+                                        <input
+                                            type="text"
+                                            name="customerName"
+                                            value={formData.customerName}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                                            placeholder="Enter client name"
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Email <span className="text-gray-400 font-normal">(Optional)</span></label>
+                                            <input
+                                                type="email"
+                                                name="customerEmail"
+                                                value={formData.customerEmail}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                                                placeholder="client@email.com"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Phone <span className="text-gray-400 font-normal">(Optional)</span></label>
+                                            <input
+                                                type="tel"
+                                                name="customerPhone"
+                                                value={formData.customerPhone}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                                                placeholder="+91..."
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Invoice Date</label>
-                                    <input
-                                        type="date"
-                                        name="invoiceDate"
-                                        value={formData.invoiceDate}
-                                        onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
-                                    <input
-                                        type="date"
-                                        name="dueDate"
-                                        value={formData.dueDate}
-                                        onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    />
+
+                                {/* Billing Configuration Block */}
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-semibold text-gray-800 border-b border-gray-100 pb-2">Invoice Configuration</h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Invoice Date</label>
+                                            <input
+                                                type="date"
+                                                name="invoiceDate"
+                                                value={formData.invoiceDate}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+                                            <input
+                                                type="date"
+                                                name="dueDate"
+                                                value={formData.dueDate}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="text-sm font-medium text-gray-700">
+                                            <label className="block mb-1">GST Type & Region</label>
+                                            <select
+                                                name="gstType"
+                                                value={formData.gstType}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none bg-white focus:ring-2 focus:ring-blue-500 transition-shadow"
+                                            >
+                                                <option value="INTRA">Intra-State (CGST + SGST)</option>
+                                                <option value="INTER">Inter-State (IGST)</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Overall Discount (₹)</label>
+                                            <input
+                                                type="number"
+                                                name="discount"
+                                                min="0"
+                                                value={formData.discount || ''}
+                                                onChange={handleInputChange}
+                                                placeholder="0.00"
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
 
                             {/* Items Table */}
                             <div>
                                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Invoice Items</h3>
                                 <div className="space-y-3">
                                     {formData.items.map((item, index) => (
-                                        <div key={index} className="flex flex-wrap sm:flex-nowrap gap-2 sm:gap-4 items-center bg-gray-50 border border-gray-100 p-3 rounded-lg sm:bg-transparent sm:border-transparent sm:p-0 mb-3 sm:mb-0">
-                                            <div className="w-full sm:flex-1">
+                                        <div key={index} className="grid grid-cols-4 sm:flex sm:flex-nowrap gap-3 sm:gap-4 items-center bg-gray-50 border border-gray-100 p-4 rounded-xl sm:bg-transparent sm:border-transparent sm:p-0 mb-4 sm:mb-0">
+                                            <div className="col-span-4 sm:flex-1">
                                                 <input
                                                     type="text"
-                                                    placeholder="Description"
+                                                    placeholder="Item Description"
                                                     value={item.description}
                                                     onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg outline-none focus:border-blue-500"
                                                 />
                                             </div>
-                                            <div className="w-[30%] sm:w-24">
+                                            <div className="col-span-1 sm:w-20">
                                                 <input
                                                     type="number"
                                                     placeholder="Qty"
                                                     min="1"
                                                     value={item.quantity}
                                                     onChange={(e) => handleItemChange(index, 'quantity', parseInt(e.target.value) || 0)}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                                                    className="w-full px-2 py-2 text-sm border border-gray-300 rounded-lg outline-none focus:border-blue-500 text-center"
                                                 />
                                             </div>
-                                            <div className="w-[35%] sm:w-32">
+                                            <div className="col-span-1 sm:w-24">
                                                 <input
                                                     type="number"
                                                     placeholder="Price"
                                                     min="0"
-                                                    value={item.unitPrice}
+                                                    value={item.unitPrice || ''}
                                                     onChange={(e) => handleItemChange(index, 'unitPrice', parseFloat(e.target.value) || 0)}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-blue-500"
+                                                    className="w-full px-2 py-2 text-sm border border-gray-300 rounded-lg outline-none focus:border-blue-500 text-center"
                                                 />
                                             </div>
-                                            <div className="flex-1 sm:w-32 text-right font-medium text-gray-700">
-                                                <span className="sm:hidden text-xs text-gray-500 mr-2">Total</span>
-                                                ₹ {(item.quantity * item.unitPrice).toFixed(2)}
+                                            <div className="col-span-1 sm:w-20">
+                                                <input
+                                                    type="number"
+                                                    placeholder="Disc ₹"
+                                                    min="0"
+                                                    value={item.discount || ''}
+                                                    onChange={(e) => handleItemChange(index, 'discount', parseFloat(e.target.value) || 0)}
+                                                    className="w-full px-2 py-2 text-sm border border-blue-100 bg-blue-50/50 rounded-lg outline-none focus:border-blue-500 text-center placeholder-blue-300"
+                                                />
                                             </div>
-                                            <button
-                                                onClick={() => removeItem(index)}
-                                                className="p-2 text-red-500 hover:bg-red-50 rounded-lg ml-auto sm:ml-0"
-                                            >
-                                                <Trash className="w-4 h-4" />
-                                            </button>
+                                            <div className="col-span-1 sm:w-20">
+                                                <div className="relative h-full">
+                                                    <select
+                                                        value={item.gstRate || 0}
+                                                        onChange={(e) => handleItemChange(index, 'gstRate', parseFloat(e.target.value))}
+                                                        className="w-full h-full px-2 py-2 text-sm border border-green-100 bg-green-50/50 rounded-lg outline-none focus:border-green-500 appearance-none text-center"
+                                                    >
+                                                        <option value={0}>0</option>
+                                                        <option value={5}>5</option>
+                                                        <option value={12}>12</option>
+                                                        <option value={18}>18</option>
+                                                        <option value={28}>28</option>
+                                                    </select>
+                                                    <span className="absolute right-1 top-1/2 transform -translate-y-1/2 text-green-600/50 pointer-events-none text-xs">%</span>
+                                                </div>
+                                            </div>
+                                            <div className="col-span-3 sm:w-28 text-right font-semibold text-gray-700 mt-2 sm:mt-0 flex justify-between sm:block items-center">
+                                                <span className="sm:hidden text-xs text-gray-500 font-normal">Line Total</span>
+                                                <span>₹ {(item.quantity * item.unitPrice).toFixed(2)}</span>
+                                            </div>
+                                            <div className="col-span-1 sm:w-auto text-right mt-2 sm:mt-0">
+                                                <button
+                                                    onClick={() => removeItem(index)}
+                                                    className="p-2 text-red-500 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors ml-auto flex items-center justify-center"
+                                                >
+                                                    <Trash className="w-4 h-4" />
+                                                </button>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -172,11 +302,45 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
                                 </button>
                             </div>
 
-                            <div className="border-t border-gray-100 pt-4 flex justify-end">
-                                <div className="text-right">
-                                    <p className="text-sm text-gray-500">Total Amount</p>
-                                    <p className="text-2xl font-bold text-gray-900">₹ {calculateSubtotal().toFixed(2)}</p>
-                                </div>
+                            <div className="border-t border-gray-100 pt-4 flex justify-end bg-gray-50 p-4 rounded-lg mt-4">
+                                {(() => {
+                                    const preview = calculatePreview();
+                                    return (
+                                        <div className="text-right w-full sm:w-64 space-y-1.5">
+                                            <div className="flex justify-between text-sm text-gray-500">
+                                                <span>Subtotal</span>
+                                                <span>₹ {preview.subTotal.toFixed(2)}</span>
+                                            </div>
+                                            {formData.gstType === 'INTER' ? (
+                                                <div className="flex justify-between text-sm text-gray-500">
+                                                    <span>IGST</span>
+                                                    <span>₹ {preview.igst.toFixed(2)}</span>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div className="flex justify-between text-sm text-gray-500">
+                                                        <span>CGST</span>
+                                                        <span>₹ {preview.cgst.toFixed(2)}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm text-gray-500">
+                                                        <span>SGST</span>
+                                                        <span>₹ {preview.sgst.toFixed(2)}</span>
+                                                    </div>
+                                                </>
+                                            )}
+                                            {Number(formData.discount) > 0 && (
+                                                <div className="flex justify-between text-sm text-red-500 font-medium">
+                                                    <span>Discount</span>
+                                                    <span>- ₹ {Number(formData.discount).toFixed(2)}</span>
+                                                </div>
+                                            )}
+                                            <div className="flex justify-between text-lg font-bold text-gray-900 pt-3 border-t border-gray-200 mt-2 shadow-sm rounded">
+                                                <span>Grand Total</span>
+                                                <span>₹ {preview.grandTotal.toLocaleString()}</span>
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
                             </div>
                         </div>
                     ) : (
@@ -245,7 +409,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }) => {
                     {step === 1 ? (
                         <button
                             onClick={() => setStep(2)}
-                            disabled={!formData.customerName || !formData.dueDate}
+                            disabled={!formData.customerName || !formData.dueDate || formData.items.length === 0}
                             className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Continue
