@@ -6,6 +6,7 @@ import { getInvoices, getInvoiceSummary, getExpenses, getExpenseSummary, createI
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import CreateInvoiceModal from './CreateInvoiceModal';
 import CreateExpenseModal from './CreateExpenseModal';
+import toast from 'react-hot-toast';
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'];
 
@@ -167,10 +168,12 @@ const Dashboard = () => {
         try {
             const token = localStorage.getItem('token');
             await createInvoice(token, data);
-            setRefreshTrigger(prev => prev + 1);
+            setIsInvoiceModalOpen(false);
+            toast.success("Invoice created successfully!");
+            fetchData();
         } catch (error) {
             console.error(error);
-            alert(error.message || "Failed to create invoice");
+            toast.error(error.message || "Failed to create invoice");
         }
     };
 
@@ -178,10 +181,12 @@ const Dashboard = () => {
         try {
             const token = localStorage.getItem('token');
             await createExpense(token, data);
-            setRefreshTrigger(prev => prev + 1);
+            setIsExpenseModalOpen(false);
+            toast.success("Expense logged successfully!");
+            fetchData();
         } catch (error) {
             console.error(error);
-            alert(error.message || "Failed to create expense");
+            toast.error(error.message || "Failed to create expense");
         }
     };
 

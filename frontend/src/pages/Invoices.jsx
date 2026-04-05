@@ -39,24 +39,27 @@ const Invoices = () => {
     const handleCreateInvoice = async (data) => {
         try {
             await createInvoice(token, data);
+            toast.success("Invoice created successfully!");
             fetchData(); // Refresh list
         } catch (error) {
             console.error(error);
-            alert(error.message || "Failed to create invoice");
+            toast.error(error.message || "Failed to create invoice");
         }
     };
 
     const handleAddPayment = async (id, maxAmount) => {
         const amountStr = window.prompt(`Enter payment amount (Max: ₹${maxAmount}):`, maxAmount);
         if (!amountStr) return;
-        const amount = Number(amountStr);
-        if (isNaN(amount) || amount <= 0) return alert("Invalid amount!");
+        const amount = parseFloat(amountStr);
+        if (isNaN(amount) || amount <= 0) return toast.error("Invalid amount!");
+
         try {
-            await addInvoicePayment(token, id, amount);
+            await addInvoicePayment(token, id, amount, 'ONLINE');
+            toast.success("Payment recorded!");
             fetchData();
         } catch (error) {
-            console.error("Failed to add payment", error);
-            alert("Failed to record payment");
+            console.error("Payment failed", error);
+            toast.error("Failed to record payment");
         }
     };
 

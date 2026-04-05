@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Filter, Search, PieChart } from 'lucide-react';
 import { getExpenses, getExpenseSummary, createExpense } from '../services/api';
 import CreateExpenseModal from './CreateExpenseModal';
+import toast from 'react-hot-toast';
 
 const Expenses = () => {
     const [expenses, setExpenses] = useState([]);
@@ -35,10 +36,11 @@ const Expenses = () => {
     const handleCreateExpense = async (data) => {
         try {
             await createExpense(token, data);
+            toast.success("Expense added successfully!");
             fetchData(); // Refresh list
         } catch (error) {
             console.error(error);
-            alert(error.message || "Failed to create expense");
+            toast.error(error.message || "Failed to create expense");
         }
     };
 

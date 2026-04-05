@@ -3,6 +3,7 @@ import { UserPlus, Search, Mail, Phone, MoreVertical } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getCompanyMembers, inviteMember } from '../services/api';
 import InviteMemberModal from '../components/InviteMemberModal';
+import toast from 'react-hot-toast';
 
 const Team = () => {
     const { user } = useAuth();
@@ -57,10 +58,11 @@ const Team = () => {
         try {
             setIsSubmitting(true);
             await inviteMember(token, inviteData);
+            toast.success('Invite sent successfully!');
             setIsModalOpen(false);
             fetchMembers(); // refresh
         } catch (err) {
-            alert(err.message || 'Failed to send invite');
+            toast.error(err.message || 'Failed to send invite');
         } finally {
             setIsSubmitting(false);
         }
