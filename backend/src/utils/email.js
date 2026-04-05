@@ -1,4 +1,9 @@
 import nodemailer from "nodemailer";
+import dns from "dns";
+
+// Enforce IPv4 DNS resolution. Render's network stack often throws ENETUNREACH if Node v18+ attempts 
+// to automatically route outgoing SMTP traffic through IPv6.
+dns.setDefaultResultOrder("ipv4first");
 
 export const sendInviteEmail = async (email, companyName, role, inviteLink) => {
   try {
