@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { updateUser, updateCompany } from '../services/api';
+import toast from 'react-hot-toast';
 
 const EditProfileModal = ({ isOpen, onClose, onSaveSuccess }) => {
     const { user } = useAuth();
@@ -64,7 +65,7 @@ const EditProfileModal = ({ isOpen, onClose, onSaveSuccess }) => {
         const companyChanged = isCompanyChanged();
 
         if (companyChanged && !consentChecked) {
-            alert("Please check the consent box to update company details.");
+            toast.error("Please check the consent box to update company details.");
             return;
         }
 
@@ -82,11 +83,12 @@ const EditProfileModal = ({ isOpen, onClose, onSaveSuccess }) => {
                 await updateCompany(token, companyData);
             }
 
+            toast.success("Profile updated successfully!");
             onSaveSuccess();
             onClose();
         } catch (error) {
             console.error("Failed to update profile", error);
-            alert(error.message || "Failed to update profile");
+            toast.error(error.message || "Failed to update profile");
         } finally {
             setLoading(false);
         }

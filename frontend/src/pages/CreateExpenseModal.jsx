@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { categorizeExpense } from '../services/api';
+import toast from 'react-hot-toast';
 
 const CreateExpenseModal = ({ isOpen, onClose, onCreate }) => {
     const { user } = useAuth();
@@ -23,7 +24,7 @@ const CreateExpenseModal = ({ isOpen, onClose, onCreate }) => {
 
     const handleAutoCategorize = async () => {
         if (!formData.description) {
-            alert("Please enter a description first");
+            toast.error("Please enter a description first");
             return;
         }
         setIsCategorizing(true);
@@ -43,7 +44,7 @@ const CreateExpenseModal = ({ isOpen, onClose, onCreate }) => {
             }
         } catch (error) {
             console.error("Auto-categorize failed:", error);
-            alert("Failed to auto-categorize. Please try again.");
+            toast.error("Failed to auto-categorize. Please try again.");
         } finally {
             setIsCategorizing(false);
         }
