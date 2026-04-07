@@ -8,6 +8,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((err, req, res, next) => {
+    console.error("GLOBAL ERROR HANDLER:", err);
+    res.status(500).json({ error: "Internal Error" });
+});
+
 app.get("/", (req, res) => {
   res.json({ message: "FinSight Backend Running 🚀" });
 });

@@ -21,6 +21,7 @@ const Dashboard = () => {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+    const [showAllTeamLogs, setShowAllTeamLogs] = useState(false);
 
     useEffect(() => {
         if (!user) return;
@@ -397,7 +398,7 @@ const Dashboard = () => {
                                         <tr>
                                             <td colSpan="4" className="py-8 text-center text-gray-500">No team activity recorded yet.</td>
                                         </tr>
-                                    ) : teamLogs.map((log) => (
+                                    ) : (showAllTeamLogs ? teamLogs : teamLogs.slice(0, 7)).map((log) => (
                                         <tr key={log.id} className="text-sm text-gray-700 whitespace-nowrap">
                                             <td className="py-4 font-medium flex items-center gap-3 px-2">
                                                 <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center text-xs font-bold font-mono shrink-0">
@@ -422,6 +423,16 @@ const Dashboard = () => {
                                 </tbody>
                             </table>
                         </div>
+                        {teamLogs.length > 7 && (
+                            <div className="mt-4 flex justify-center border-t border-gray-100 pt-4">
+                                <button
+                                    onClick={() => setShowAllTeamLogs(!showAllTeamLogs)}
+                                    className="px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors border border-purple-100"
+                                >
+                                    {showAllTeamLogs ? 'Show Less' : 'Show More'}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

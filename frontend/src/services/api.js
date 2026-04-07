@@ -366,3 +366,20 @@ export const acceptInvite = async (acceptData) => {
         throw error;
     }
 };
+
+export const getDashboardInsights = async (token) => {
+    try {
+        const response = await fetch(`${API_URL}/dashboard/insights`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || data.error || "Failed to fetch insights");
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
